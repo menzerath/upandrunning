@@ -1,4 +1,9 @@
-# Up and Running
+# UpAndRunning
+
+## Credits
+
+### Application Icon
+[Icon](https://www.iconfinder.com/icons/328014/back_on_top_top_up_upload_icon) created by [Aha-Soft Team](http://www.aha-soft.com) - [CC BY 2.5 License](http://creativecommons.org/licenses/by/2.5/)
 
 ## License
 The MIT License (MIT)
