@@ -18,7 +18,7 @@ logger.info("Welcome to UpAndRunning v" + require('./package.json').version + "!
 // create database
 logger.info("Preparing Database...");
 db.serialize(function() {
-	db.run("CREATE TABLE IF NOT EXISTS website (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT NOT NULL, protocol TEXT NOT NULL, url TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'unknown', lastCheck TEXT NOT NULL DEFAULT 'never');");
+	db.run("CREATE TABLE IF NOT EXISTS website (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT NOT NULL, enabled INTEGER NOT NULL DEFAULT 1, protocol TEXT NOT NULL, url TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'unknown', lastCheck TEXT NOT NULL DEFAULT 'never', avgAvail INTEGER NOT NULL DEFAULT 100);");
 	db.run("CREATE TABLE IF NOT EXISTS result (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, website_id INTEGER NOT NULL, status TEXT NOT NULL, time TEXT NOT NULL);");
 });
 
@@ -62,16 +62,21 @@ setInterval(function() {
 
 // "check all websites"-function
 function checkAllWebsites() {
-	db.get("SELECT COUNT(id) AS sites FROM website;", function(err, row) {
+	db.get("SELECT COUNT(id) AS sites FROM website WHERE enabled = 1;", function(err, row) {
 		if (row === undefined) {
-			logger.verbose("Unable to find any website in my database");
+			logger.verbose("Unable to find a single enabled website in my database");
 		} else {
-			logger.info("Found " + row.sites + " websites in my database");
-		}
-	});
+			logger.info("Found " + row.sites + " active websites in my database");
 
-	db.each("SELECT id, protocol, url FROM website;", function(err, row) {
-		new website(row.id, row.protocol, row.url).runCheck();
+			db.each("SELECT id, protocol, url FROM website WHERE enabled = 1;", function(err, row) {
+				var w = new website(row.id, row.protocol, row.url);
+				w.runCheck();
+
+				setTimeout(function() {
+					w.calcAvgAvailability();
+				}, 5*1000);
+			});
+		}
 	});
 }
 

@@ -17,7 +17,7 @@ router.get('/status/:url', function(req, res) {
 		if (row === undefined) {
 			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data matching the given url.' });
 		} else {
-			res.send({ requestSuccess: true, websiteData: { id: row.id, name: row.name, url: row.protocol + '://' + row.url }, lastCheckResult: { status: row.status, time: row.lastCheck } });
+			res.send({ requestSuccess: true, websiteData: { id: row.id, name: row.name, enabled: row.enabled, url: row.protocol + '://' + row.url, avgAvail: row.avgAvail + '%' }, lastCheckResult: { status: row.status, time: row.lastCheck } });
 		}
 	});
 });
@@ -41,15 +41,15 @@ router.get('/results', function(req, res) {
 });
 
 router.get('/results/:url', function(req, res) {
-	var output = '{ "requestSuccess": true';
+	var output = '{ "requestSuccess": true, "results": { ';
 
-	db.each("SELECT result.id, result.status, result.time FROM website, result WHERE website.id = result.website_id AND website.url = $url ORDER BY result.id DESC LIMIT 500;", { $url: req.params.url }, function(err, row) {
-		output += ', "check_' + row.id + '": { "status": "' + row.status + '", "time": "' + row.time + '" }';
+	db.each("SELECT result.id, result.status, result.time FROM website, result WHERE website.id = result.website_id AND website.url = $url LIMIT 500;", { $url: req.params.url }, function(err, row) {
+		output += '"' + row.id + '": { "status": "' + row.status + '", "time": "' + row.time + '" }, ';
 	}, function(err, rows) {
 		if (rows == 0) {
 			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data matching the given url.' });
 		} else {
-			res.send(JSON.parse(output + ' }'));
+			res.send(JSON.parse(output.slice(0, - 2) + ' } }'));
 		}
 	});
 });
@@ -59,12 +59,12 @@ router.get('/isup', function(req, res) {
 });
 
 router.get('/isup/:url', function(req, res) {
-	db.get("SELECT status FROM website WHERE url = $url;", { $url: req.params.url }, function(err, row) {
+	db.get("SELECT status FROM website WHERE url = $url AND enabled = 1;", { $url: req.params.url }, function(err, row) {
 		if (row === undefined) {
 			res.status(404).send('Unknown');
 		} else {
 			if (row.status == 200 || row.status == 301 || row.status == 302) {
-				res.send('OK');
+				res.send('Yes');
 			} else {
 				res.send('No');
 			}
