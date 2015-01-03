@@ -72,9 +72,11 @@ function checkAllWebsites() {
 				var w = new website(row.id, row.protocol, row.url);
 				w.runCheck();
 
+				// calculate the average availability after a delay of 30 seconds
 				setTimeout(function() {
+					var w = new website(row.id, row.protocol, row.url);
 					w.calcAvgAvailability();
-				}, 5*1000);
+				}, 30*1000);
 			});
 		}
 	});
