@@ -4,6 +4,7 @@
 		"host": "localhost",
 		"user": "myUser",
 		"password": "mySecretPassword",
-		"database": "myDatabase"
+		"database": "myDatabase",
+		"connectionLimit": 10
 	}
 }
