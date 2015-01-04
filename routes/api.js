@@ -14,7 +14,11 @@ router.get('/status', function(req, res) {
 
 router.get('/status/:url', function(req, res) {
 	db.query("SELECT * FROM website WHERE url = ?;", [ req.params.url ], function(err, rows) {
-		if (err) { logger.error("Unable to fetch website-status: " + err.code); return; }
+		if (err) {
+			logger.error("Unable to fetch website-status: " + err.code);
+			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
+			return;
+		}
 
 		if (rows[0] === undefined) {
 			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data matching the given url.' });
@@ -30,7 +34,11 @@ router.get('/isup', function(req, res) {
 
 router.get('/isup/:url', function(req, res) {
 	db.query("SELECT status FROM website WHERE url = ? AND enabled = 1;", [ req.params.url ], function(err, rows) {
-		if (err) { logger.error("Unable to fetch website-status: " + err.code); return; }
+		if (err) {
+			logger.error("Unable to fetch website-status: " + err.code);
+			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
+			return;
+		}
 
 		if (rows[0] === undefined) {
 			res.status(404).send('Unknown');
