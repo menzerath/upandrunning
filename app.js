@@ -7,19 +7,19 @@ var db = require('./lib/database');
 var logger = require('./lib/logger');
 var website = require('./lib/website');
 
-var index = require('./routes/index');
-var api = require('./routes/api');
-
 var app = express();
 
 // welcome!
 logger.info("Welcome to UpAndRunning v" + require('./package.json').version + "!");
 
 // create database
-logger.info("Preparing Database...");
-db.serialize(function() {
-	db.run("CREATE TABLE IF NOT EXISTS website (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT NOT NULL, enabled INTEGER NOT NULL DEFAULT 1, protocol TEXT NOT NULL, url TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'unknown', lastCheck TEXT NOT NULL DEFAULT 'never', avgAvail INTEGER NOT NULL DEFAULT 100);");
-	db.run("CREATE TABLE IF NOT EXISTS result (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, website_id INTEGER NOT NULL, status TEXT NOT NULL, time TEXT NOT NULL);");
+db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `enabled` int(1) NOT NULL DEFAULT '1', `protocol` varchar(8) NOT NULL, `url` varchar(100) NOT NULL, `status` varchar(50) NOT NULL DEFAULT 'unknown', `time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `lastFailStatus` varchar(50) NOT NULL DEFAULT 'unknown', `lastFailTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `ups` int(11) NOT NULL DEFAULT '0', `downs` int(11) NOT NULL DEFAULT '0', `totalChecks` int(11) NOT NULL DEFAULT '0', `avgAvail` float NOT NULL DEFAULT '100', PRIMARY KEY (`id`), UNIQUE KEY `url` (`url`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function(err, rows, fields) {
+	if (err) {
+		logger.error(err);
+		return;
+	} else {
+		logger.info("Database successfully prepared");
+	}
 });
 
 // view engine setup
@@ -32,14 +32,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Add our custom header
+// add our custom header
 app.use(function (req, res, next) {
 	res.setHeader("X-Powered-By", "UpAndRunning");
 	next();
 });
 
-app.use('/', index);
-app.use('/api', api);
+// the most important routes
+app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/api'));
+app.use('/show', require('./routes/show'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,35 +52,33 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-	res.status(err.status || 500);
-	res.render('error', { message: err.message, error: {} });
+	res.status(err.status || 500).render('error', { code: err.status, message: err.message });
 });
 
-// check all the websites now and then every 5 minutes
-checkAllWebsites();
+// check all the websites now (after a 3 second init-delay) and then every 5 minutes
+setTimeout(function() {
+	checkAllWebsites();
+}, 3*1000);
+
 setInterval(function() {
 	checkAllWebsites();
 }, 5*60*1000);
 
 // "check all websites"-function
 function checkAllWebsites() {
-	db.get("SELECT COUNT(id) AS sites FROM website WHERE enabled = 1;", function(err, row) {
-		if (row === undefined) {
-			logger.verbose("Unable to find a single enabled website in my database");
-		} else {
-			logger.info("Found " + row.sites + " active websites in my database");
+	db.query("SELECT id, protocol, url FROM website WHERE enabled = 1;", function(err, rows, fields) {
+	    if (err) {
+			logger.error("Unable to search for websites in my database: " + err.code);
+			return;
+	    } else {
+	    	logger.info("Found " + rows.length + " active websites in my database");
 
-			db.each("SELECT id, protocol, url FROM website WHERE enabled = 1;", function(err, row) {
-				var w = new website(row.id, row.protocol, row.url);
+	    	for (var i in rows) {
+		        var w = new website(rows[i].id, rows[i].protocol, rows[i].url);
 				w.runCheck();
-
-				// calculate the average availability after a delay of 30 seconds
-				setTimeout(function() {
-					var w = new website(row.id, row.protocol, row.url);
-					w.calcAvgAvailability();
-				}, 30*1000);
-			});
-		}
+				w.calcAvgAvailability();
+		    }
+	    }
 	});
 }
 

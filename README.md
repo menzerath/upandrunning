@@ -1,4 +1,8 @@
 # UpAndRunning
+UpAndRunning is a lightweight Node.JS application which monitors all of your websites for availability and offers a simple JSON-API.
+
+## Installation
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/MarvinMenzerath/UpAndRunning)
 
 ## Credits
 
