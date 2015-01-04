@@ -4,6 +4,12 @@ UpAndRunning is a lightweight Node.JS application which monitors all of your web
 ## Installation
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/MarvinMenzerath/UpAndRunning)
 
+* Download and extract all the files in a directory
+* Prepare your MySQL-Server: create a new user and a new database
+* Copy `config/default.json` to `config/local.json` and change this file to your needs
+* Run `npm install` and `npm start`
+* Done!
+
 ## Credits
 
 ### Application Icon
