@@ -41,8 +41,8 @@ router.get('/isup/:url', function(req, res) {
 		}
 
 		if (rows[0] === undefined) {
-			res.status(404).send('Unknown');
-		} else if (rows[0].status == 200 || rows[0].status == 301 || rows[0].status == 302) {
+			res.status(404).send('Website unknown');
+		} else if (rows[0].status.indexOf("200") > -1 || rows[0].status.indexOf("301") > -1 || rows[0].status.indexOf("302") > -1) {
 			res.send('Yes');
 		} else {
 			res.send('No');

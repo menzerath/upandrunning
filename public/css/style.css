@@ -1,0 +1,15 @@
+#fat-amy {
+	margin-top: 100px;
+}
+
+#what-is-this {
+	display: none;
+}
+
+#bc-feature, #bc-site {
+	display: none;
+}
+
+.form-horizontal .control-label {
+	padding-top: 10px;
+}
