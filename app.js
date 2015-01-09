@@ -70,12 +70,10 @@ function checkAllWebsites() {
 			logger.error("Unable to search for websites in my database: " + err.code);
 			return;
 	    } else {
-	    	logger.info("Found " + rows.length + " active websites in my database");
+	    	logger.info("Checking " + rows.length + " active websites...");
 
 	    	for (var i in rows) {
-		        var w = new website(rows[i].id, rows[i].protocol, rows[i].url);
-				w.runCheck();
-				w.calcAvgAvailability();
+		        new website(rows[i].id, rows[i].protocol, rows[i].url).runCheck();
 		    }
 	    }
 	});
