@@ -8,10 +8,6 @@ router.get('/', function(req, res) {
 	res.send({ requestSuccess: true, message: 'Welcome to UpAndRunning\'s API!' });
 });
 
-router.get('/status', function(req, res) {
-	res.status(422).send({ requestSuccess: false, message: 'You need to select a website.' });
-});
-
 router.get('/status/:url', function(req, res) {
 	db.query("SELECT * FROM website WHERE url = ?;", [ req.params.url ], function(err, rows) {
 		if (err) {
@@ -26,10 +22,6 @@ router.get('/status/:url', function(req, res) {
 			res.send({ requestSuccess: true, websiteData: { id: rows[0].id, name: rows[0].name, enabled: rows[0].enabled, url: rows[0].protocol + '://' + rows[0].url }, availability: { ups: rows[0].ups, downs: rows[0].downs, total: rows[0].totalChecks, average: rows[0].avgAvail + '%' }, lastCheckResult: { status: rows[0].status, time: rows[0].time }, lastFailedCheckResult: { status: rows[0].lastFailStatus, time: rows[0].lastFailTime } });
 		}
 	});
-});
-
-router.get('/isup', function(req, res) {
-	res.send({ requestSuccess: false, message: 'You need to select a website.' });
 });
 
 router.get('/isup/:url', function(req, res) {

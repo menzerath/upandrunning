@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 
 var db = require('./lib/database');
 var logger = require('./lib/logger');
+var user = require('./lib/user');
 var website = require('./lib/website');
 
 var app = express();
@@ -17,7 +18,25 @@ db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCRE
 		logger.error(err);
 		return;
 	} else {
-		logger.info("Database successfully prepared");
+		logger.info("Website-Database successfully prepared");
+	}
+});
+
+db.query("CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `isAdmin` int(1) NOT NULL DEFAULT '0', `salt` varchar(512) NOT NULL, `password` varchar(1024) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `name` (`name`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function(err, rows, fields) {
+	if (err) {
+		logger.error(err);
+		return;
+	} else {
+		logger.info("User-Database successfully prepared");
+		new user("admin").exists(function(status) {
+			if (status === false) {
+				new user("admin").addUser("admin", true, function(status) {
+					if (status === true) {
+						logger.info("Admin-User [admin / admin] created");
+					}
+				});
+			}
+		});
 	}
 });
 
@@ -40,7 +59,7 @@ app.use(function (req, res, next) {
 // the most important routes
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/api'));
-app.use('/show', require('./routes/show'));
+app.use('/api/admin', require('./routes/api-admin'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
