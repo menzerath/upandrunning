@@ -19,7 +19,7 @@ router.get('/status/:url', function(req, res) {
 		if (rows[0] === undefined) {
 			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data matching the given url.' });
 		} else {
-			res.send({ requestSuccess: true, websiteData: { id: rows[0].id, name: rows[0].name, enabled: rows[0].enabled, url: rows[0].protocol + '://' + rows[0].url }, availability: { ups: rows[0].ups, downs: rows[0].downs, total: rows[0].totalChecks, average: rows[0].avgAvail + '%' }, lastCheckResult: { status: rows[0].status, time: rows[0].time }, lastFailedCheckResult: { status: rows[0].lastFailStatus, time: rows[0].lastFailTime } });
+			res.send({ requestSuccess: true, websiteData: { id: rows[0].id, name: rows[0].name, enabled: rows[0].enabled ? true : false, url: rows[0].protocol + '://' + rows[0].url }, availability: { ups: rows[0].ups, downs: rows[0].downs, total: rows[0].totalChecks, average: rows[0].avgAvail + '%' }, lastCheckResult: { status: rows[0].status, time: rows[0].time }, lastFailedCheckResult: { status: rows[0].lastFailStatus, time: rows[0].lastFailTime } });
 		}
 	});
 });

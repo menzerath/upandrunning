@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 	<head>
 		<meta charset="utf-8">
 		<title>UpAndRunning</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/bootswatch.css" media="screen">
 		<link rel="stylesheet" href="/css/style.css" media="screen">
-		<link rel='shortcut icon' href='/favicon.png'>
+		<link rel="shortcut icon" href="/favicon.png">
 	</head>
 	<body>
 		<div class="navbar navbar-default navbar-fixed-top">

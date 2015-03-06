@@ -2,7 +2,7 @@
 	margin-top: 100px;
 }
 
-#what-is-this {
+#what-is-this, #error-box {
 	display: none;
 }
 
@@ -12,4 +12,8 @@
 
 .form-horizontal .control-label {
 	padding-top: 10px;
+}
+
+.label {
+	cursor: pointer;
 }

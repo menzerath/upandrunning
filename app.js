@@ -28,8 +28,8 @@ db.query("CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL AUTO_INCREMEN
 		return;
 	} else {
 		logger.info("User-Database successfully prepared");
-		new user("admin").exists(function(status) {
-			if (status === false) {
+		new user("").getUserCount(function(count) {
+			if (count === 0) {
 				new user("admin").addUser("admin", true, function(status) {
 					if (status === true) {
 						logger.info("Admin-User [admin / admin] created");
@@ -58,6 +58,7 @@ app.use(function (req, res, next) {
 
 // the most important routes
 app.use('/', require('./routes/index'));
+app.use('/admin', require('./routes/admin'));
 app.use('/api', require('./routes/api'));
 app.use('/api/admin', require('./routes/api-admin'));
 
