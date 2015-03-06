@@ -36,7 +36,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-lg-8" id="col-form-admin">
+				<div class="col-lg-9" id="col-form-admin">
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="well form-horizontal">
@@ -49,7 +49,7 @@
 											<th>Enabled</th>
 											<th>Protocol</th>
 											<th>URL</th>
-											<th>Actions</th>
+											<th width="12%">Actions</th>
 										</tr>
 									</thead>
 									<tbody id="table-websites">
@@ -74,7 +74,7 @@
 											<th>#</th>
 											<th>Username</th>
 											<th>isAdmin</th>
-											<th>Actions</th>
+											<th width="12%">Actions</th>
 										</tr>
 									</thead>
 									<tbody id="table-users">
@@ -148,7 +148,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4" id="col-form-login">
+				<div class="col-lg-3" id="col-form-login">
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="well form-horizontal">

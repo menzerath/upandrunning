@@ -36,12 +36,26 @@ router.get('/website/add/:name/:protocol/:url', function(req, res) {
 	});
 });
 
-router.get('/website/edit/:name/:protocol/:url', function(req, res) {
+router.get('/website/enable/:id', function(req, res) {
+	db.query("UPDATE website SET enabled = 1 WHERE id = ?;", [ req.params.id ], function(err, result) {
+		if (err) { logger.error("Unable to enable website: " + err.code); res.status(400).send({ requestSuccess: false, message: 'Unable to process your request: ' + err.code }); } else { res.send({ requestSuccess: true }); }
+	});
+});
+
+router.get('/website/disable/:id', function(req, res) {
+	db.query("UPDATE website SET enabled = 0 WHERE id = ?;", [ req.params.id ], function(err, result) {
+		if (err) { logger.error("Unable to disable website: " + err.code); res.status(400).send({ requestSuccess: false, message: 'Unable to process your request: ' + err.code }); } else { res.send({ requestSuccess: true }); }
+	});
+});
+
+router.get('/website/edit/:id/:name/:protocol/:url', function(req, res) {
 	// TODO
 });
 
-router.get('/website/delete/:name', function(req, res) {
-	// TODO
+router.get('/website/delete/:id', function(req, res) {
+	db.query("DELETE FROM website WHERE id = ?;", [ req.params.id ], function(err, result) {
+		if (err) { logger.error("Unable to remove website: " + err.code); res.status(400).send({ requestSuccess: false, message: 'Unable to process your request: ' + err.code }); } else { res.send({ requestSuccess: true }); }
+	});
 });
 
 router.get('/user/list', function(req, res) {
@@ -70,12 +84,14 @@ router.get('/user/add/:name/:password/:admin', function(req, res) {
 	});
 });
 
-router.get('/user/edit/:name/:protocol/:url', function(req, res) {
+router.get('/user/edit/:id/:name/:password/:isAdmin', function(req, res) {
 	// TODO
 });
 
-router.get('/user/delete/:name', function(req, res) {
-	// TODO
+router.get('/user/delete/:id', function(req, res) {
+	db.query("DELETE FROM user WHERE id = ?;", [ req.params.id ], function(err, result) {
+		if (err) { logger.error("Unable to remove user: " + err.code); res.status(400).send({ requestSuccess: false, message: 'Unable to process your request: ' + err.code }); } else { res.send({ requestSuccess: true }); }
+	});
 });
 
 router.get('/login/:user/:password', function(req, res) {
