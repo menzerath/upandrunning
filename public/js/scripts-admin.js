@@ -1,18 +1,68 @@
+var loadedWebsiteData;
+var editId;
+
+function showSuccessBox() {
+	$('#success-box').fadeIn(200);
+}
+
+function hideSuccessBox() {
+	$('#success-box').fadeOut(200);
+}
+
 function showErrorBox() {
-	$('#error-box').fadeIn(500);
+	$('#error-box').fadeIn(200);
 }
 
 function hideErrorBox() {
-	$('#error-box').fadeOut(500);
+	$('#error-box').fadeOut(200);
 }
 
 $(document).ready(function() {
-	reloadData();
+	$('#input-add-name').keypress(function(event) {
+		if (event.keyCode == 13) {
+			addWebsite();
+		}
+	});
+
+	$('#input-add-url').keypress(function(event) {
+		if (event.keyCode == 13) {
+			addWebsite();
+		}
+	});
+
+	$('#input-edit-name').keypress(function(event) {
+		if (event.keyCode == 13) {
+			saveWebsite();
+		}
+	});
+
+	$('#input-edit-url').keypress(function(event) {
+		if (event.keyCode == 13) {
+			saveWebsite();
+		}
+	});
+
+	$('#input-new-password').keypress(function(event) {
+		if (event.keyCode == 13) {
+			changePassword();
+		}
+	});
+
+	loadWebsites();
 });
 
-function reloadData() {
-	loadWebsites();
-	loadUsers();
+function logout() {
+	$.ajax({
+		url: "/api/admin/logout",
+		type: "GET",
+		success: function(data) {
+			location.reload();
+		},
+		error: function(error) {
+			$('#error-text').html(JSON.parse(error.responseText).message);
+			showErrorBox();
+		}
+	});
 }
 
 function loadWebsites() {
@@ -20,21 +70,36 @@ function loadWebsites() {
 		url: "/api/admin/website/list",
 		type: "GET",
 		success: function(data) {
+			loadedWebsiteData = data.websites;
 			var dataString = '';
-			for (var i = 0; i < data.websites.length; i++) {
-				dataString += '<tr><td>' + data.websites[i].id + '</td><td>' + data.websites[i].name + '</td><td>';
-				if (data.websites[i].enabled) {
-					dataString += ' <span class="label label-success" onclick="disableWebsite(' + data.websites[i].id + ')">Enabled</span> ';
+			for (var i = 0; i < loadedWebsiteData.length; i++) {
+				dataString += '<tr><td>' + loadedWebsiteData[i].id + '</td><td>' + loadedWebsiteData[i].name + '</td><td>';
+				
+				if (loadedWebsiteData[i].enabled) {
+					dataString += ' <span class="label label-success" id="label-action" onclick="disableWebsite(' + loadedWebsiteData[i].id + ')">Enabled</span> ';
 				} else {
-					dataString += ' <span class="label label-warning" onclick="enableWebsite(' + data.websites[i].id + ')">Disabled</span> ';
+					dataString += ' <span class="label label-warning" id="label-action" onclick="enableWebsite(' + loadedWebsiteData[i].id + ')">Disabled</span> ';
 				}
-				dataString += '</td><td>' + data.websites[i].protocol + '</td><td>' + data.websites[i].url + '</td><td><span class="label label-primary" onclick="editWebsite(' + data.websites[i].id + ')">Edit</span> ';
-				dataString += ' <span class="label label-danger" onclick="deleteWebsite(' + data.websites[i].id + ')">Delete</span></td></tr>';
+				
+				dataString += '</td><td>' + loadedWebsiteData[i].protocol + '</td><td>' + loadedWebsiteData[i].url + '</td><td>';
+
+				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
+					dataString += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
+				} else if (loadedWebsiteData[i].status.indexOf("301") > -1 || loadedWebsiteData[i].status.indexOf("302") > -1) {
+					dataString += ' <span class="label label-warning">' + loadedWebsiteData[i].status + '</span> ';
+				} else {
+					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
+				}
+
+				var date = new Date(loadedWebsiteData[i].time.replace(' ', 'T'));
+				dataString += '</td><td>' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td><td>' + loadedWebsiteData[i].avgAvail + '</td>';
+
+				dataString += '<td><span class="label label-primary" id="label-action" onclick="editWebsite(' + loadedWebsiteData[i].id + ')">Edit</span> <span class="label label-danger" id="label-action" onclick="deleteWebsite(' + loadedWebsiteData[i].id + ')">Delete</span></td></tr>';
 			}
 			$('#table-websites').html(dataString);
 		},
 		error: function(error) {
-			$('#table-websites').html('<tr><td>X</td><td>Error</td><td></td><td></td><td>None</td>');
+			$('#table-websites').html('<tr><td colspan="9">An error occured. Please authenticate again.</td>');
 		}
 	});
 }
@@ -59,6 +124,9 @@ function addWebsite() {
 				showErrorBox();
 			}
 		});
+	} else {
+		$('#error-text').html("Please fill in all fields to add a new website.");
+		showErrorBox();
 	}
 }
 
@@ -91,7 +159,44 @@ function disableWebsite(id) {
 }
 
 function editWebsite(id) {
+	editId = id;
+	$('#form-edit-website').fadeIn(200);
 
+	for (var i = 0; i < loadedWebsiteData.length; i++) {
+		if (id === loadedWebsiteData[i].id) {
+			$('#input-edit-name').val(loadedWebsiteData[i].name);
+			$('#input-edit-protocol').val(loadedWebsiteData[i].protocol);
+			$('#input-edit-url').val(loadedWebsiteData[i].url);
+		}
+	}
+}
+
+function saveWebsite() {
+	var name = $('#input-edit-name').val();
+	var protocol = $('#input-edit-protocol').val();
+	var url = $('#input-edit-url').val();
+
+	if (name.trim() && protocol.trim() && url.trim()) {
+		$.ajax({
+			url: "/api/admin/website/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
+			type: "GET",
+			success: function(data) {
+				cancleSaveWebsite();
+				loadWebsites();
+			},
+			error: function(error) {
+				$('#error-text').html(JSON.parse(error.responseText).message);
+				showErrorBox();
+			}
+		});
+	} else {
+		$('#error-text').html("Please fill in all fields to save this edited website.");
+		showErrorBox();
+	}
+}
+
+function cancleSaveWebsite() {
+	$('#form-edit-website').fadeOut(200);
 }
 
 function deleteWebsite(id) {
@@ -110,62 +215,25 @@ function deleteWebsite(id) {
 	}
 }
 
-function loadUsers() {
-	$.ajax({
-		url: "/api/admin/user/list",
-		type: "GET",
-		success: function(data) {
-			var dataString = '';
-			for (var i = 0; i < data.users.length; i++) {
-				dataString += '<tr><td>' + data.users[i].id + '</td><td>' + data.users[i].username + '</td><td>' + data.users[i].isAdmin + '</td><td><span class="label label-primary" onclick="editUser(' + data.users[i].id + ')">Edit</span> <span class="label label-danger" onclick="deleteUser(' + data.users[i].id + ')">Delete</span></td></tr>';
-			}
-			$('#table-users').html(dataString);
-		},
-		error: function(error) {
-			$('#table-users').html('<tr><td>X</td><td>Error</td><td></td><td>None</td></tr>');
-		}
-	});
-}
+function changePassword() {
+	var newPassword = $('#input-new-password').val();
 
-function addUser() {
-	var name = $('#input-add-user-name').val();
-	var admin = $('#input-add-user-admin').val();
-	var password = $('#input-add-user-password').val();
-
-	if (name.trim() && admin.trim() && password.trim()) {
+	if (newPassword.trim()) {
 		$.ajax({
-			url: "/api/admin/user/add/" + name + "/" + admin + "/" + password,
+			url: "/api/admin/setting/password/" + newPassword,
 			type: "GET",
 			success: function(data) {
-				$('#input-add-user-name').val('');
-				$('#input-add-user-admin').val('0');
-				$('#input-add-user-password').val('');
-				loadUsers();
+				$('#input-new-password').val('');
+				$('#success-text').html("Password successfully changed.");
+				showSuccessBox();
 			},
 			error: function(error) {
 				$('#error-text').html(JSON.parse(error.responseText).message);
 				showErrorBox();
 			}
 		});
-	}
-}
-
-function editUser(id) {
-
-}
-
-function deleteUser(id) {
-	if (window.confirm("Are you sure?")) {
-		$.ajax({
-			url: "/api/admin/user/delete/" + id,
-			type: "GET",
-			success: function(data) {
-				loadUsers();
-			},
-			error: function(error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
-			}
-		});
+	} else {
+		$('#error-text').html("Please enter a valid password to change your password.");
+		showErrorBox();
 	}
 }

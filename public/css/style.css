@@ -2,7 +2,7 @@
 	margin-top: 100px;
 }
 
-#what-is-this, #error-box {
+#what-is-this, #success-box, #error-box {
 	display: none;
 }
 
@@ -10,11 +10,15 @@
 	display: none;
 }
 
+#form-edit-website {
+	display: none;
+}
+
 .form-horizontal .control-label {
 	padding-top: 10px;
 }
 
-.label {
+#label-action {
 	cursor: pointer;
 	text-transform: uppercase;
 }

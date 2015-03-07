@@ -1,10 +1,11 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var bodyParser = require('body-parser');
 
 var db = require('./lib/database');
 var logger = require('./lib/logger');
-var user = require('./lib/user');
+var admin = require('./lib/admin');
 var website = require('./lib/website');
 
 var app = express();
@@ -22,17 +23,17 @@ db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCRE
 	}
 });
 
-db.query("CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `isAdmin` int(1) NOT NULL DEFAULT '0', `salt` varchar(512) NOT NULL, `password` varchar(1024) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `name` (`name`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function(err, rows, fields) {
+db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `value` varchar(1024) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `name` (`name`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function(err, rows, fields) {
 	if (err) {
 		logger.error(err);
 		return;
 	} else {
-		logger.info("User-Database successfully prepared");
-		new user("").getUserCount(function(count) {
-			if (count === 0) {
-				new user("admin").addUser("admin", true, function(status) {
+		logger.info("Settings-Database successfully prepared");
+		new admin().exists(function(status) {
+			if (status === false) {
+				new admin().addAdmin("admin", function(status) {
 					if (status === true) {
-						logger.info("Admin-User [admin / admin] created");
+						logger.info("Admin-User [Password: admin] created");
 					}
 				});
 			}
@@ -44,6 +45,7 @@ db.query("CREATE TABLE IF NOT EXISTS `user` (`id` int(11) NOT NULL AUTO_INCREMEN
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 
+app.use(session({ secret: 'mySecret', resave: false, saveUninitialized: false }));
 app.use(require('morgan')('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

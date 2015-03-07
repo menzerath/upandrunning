@@ -6,7 +6,7 @@ function hideInformationBox() {
 	$('#what-is-this').fadeOut(500);
 }
 
-function bindKeypressHandlers() {
+$(document).ready(function() {
 	$('#input-information').keypress(function(event) {
 		if (event.keyCode == 13) {
 			showInformation();
@@ -18,10 +18,6 @@ function bindKeypressHandlers() {
 			showIsUp();
 		}
 	});
-}
-
-$(document).ready(function() {
-	bindKeypressHandlers();
 
 	if (location.pathname.split("/")[1] == "status") {
 		if (location.pathname.split("/")[2] !== undefined  && location.pathname.split("/")[2] !== "") {
