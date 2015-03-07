@@ -66,7 +66,7 @@ router.get('/website/delete/:id', function(req, res) {
 	});
 });
 
-router.get('/setting/password/:password', function(req, res) {
+router.get('/settings/password/:password', function(req, res) {
 	if (!req.session.loggedin) { res.status(401).send({ requestSuccess: false, message: 'Unauthorized' }); return; }
 	new admin().changePassword(req.params.password, function(status, error) {
 		if (status === false) {

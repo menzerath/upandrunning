@@ -10,6 +10,111 @@ UpAndRunning is a lightweight Node.JS application which monitors all of your web
 * Run `npm install` and `npm start`
 * Done!
 
+## API
+
+### User
+Notice: Everyone is able to access those APIs.
+
+#### Status
+```
+/api/status/website.com
+
+{
+	"requestSuccess": true,
+	"websiteData": {
+		"id": 1,
+		"name": "My Website",
+		"enabled": true,
+		"url": "https://website.com"
+	},
+	"availability": {
+		"ups": 99,
+		"downs": 1,
+		"total": 100,
+		"average": "99.00%"
+	},
+	"lastCheckResult": {
+		"status": "200 - OK",
+		"time": "2015-01-01T00:00:00.000Z"
+	},
+	"lastFailedCheckResult": {
+		"status": "500 - Internal Server Error",
+		"time": "2014-12-31T20:15:00.000Z"
+	}
+}
+```
+
+#### IsUp
+```
+/api/isup/website.com
+
+Yes / No
+```
+
+### Admin
+Notice: You have to login before you are able to use those APIs.
+
+#### List all Websites
+```
+/api/admin/website/list
+
+{
+	"requestSuccess": true,
+	"websites": [
+		{
+			"id": 1,
+			"name": "My Website",
+			"enabled": true,
+			"protocol": "https",
+			"url": "website.com",
+			"status": "200 - OK",
+			"time": "2015-01-01T00:00:00.000Z",
+			"avgAvail": "99.00%"
+		}
+	]
+}
+```
+
+#### Add a Website
+```
+/api/admin/website/add/:name/:protocol/:url
+```
+
+#### Enable a Website
+```
+/api/admin/website/enable/:id
+```
+
+#### Disable a Website
+```
+/api/admin/website/disable/:id
+```
+
+#### Edit a Website
+```
+/api/admin/website/edit/:id/:name/:protocol/:url
+```
+
+#### Delete a Website
+```
+/api/admin/website/delete/:id
+```
+
+#### Change Admin-Password
+```
+/api/admin/settings/password/:password
+```
+
+#### Login
+```
+/api/admin/login/:password
+```
+
+#### Logout
+```
+/api/admin/logout
+```
+
 ## Credits
 
 ### Application Icon

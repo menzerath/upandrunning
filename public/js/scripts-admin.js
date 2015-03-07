@@ -220,7 +220,7 @@ function changePassword() {
 
 	if (newPassword.trim()) {
 		$.ajax({
-			url: "/api/admin/setting/password/" + newPassword,
+			url: "/api/admin/settings/password/" + newPassword,
 			type: "GET",
 			success: function(data) {
 				$('#input-new-password').val('');
