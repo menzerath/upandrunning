@@ -91,15 +91,21 @@ function loadWebsites() {
 					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
 				}
 
-				var date = new Date(loadedWebsiteData[i].time.replace(' ', 'T'));
-				dataString += '</td><td>' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td><td>' + loadedWebsiteData[i].avgAvail + '</td>';
+				if (loadedWebsiteData[i].time === '0000-00-00 00:00:00') {
+					dataString += '</td><td>never</td>';
+				} else {
+					var date = new Date(loadedWebsiteData[i].time.replace(' ', 'T'));
+					dataString += '</td><td>' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td>';
+				}
+
+				dataString += '<td>' + loadedWebsiteData[i].avgAvail + '</td>';
 
 				dataString += '<td><span class="label label-primary" id="label-action" onclick="editWebsite(' + loadedWebsiteData[i].id + ')">Edit</span> <span class="label label-danger" id="label-action" onclick="deleteWebsite(' + loadedWebsiteData[i].id + ')">Delete</span></td></tr>';
 			}
 			$('#table-websites').html(dataString);
 		},
 		error: function(error) {
-			$('#table-websites').html('<tr><td colspan="9">An error occured. Please authenticate again.</td>');
+			$('#table-websites').html('<tr><td colspan="9">An error occured. Please authenticate again or add a website.</td>');
 		}
 	});
 }

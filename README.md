@@ -8,6 +8,7 @@ UpAndRunning is a lightweight Node.JS application which monitors all of your web
 * Prepare your MySQL-Server: create a new user and a new database
 * Copy `config/default.json` to `config/local.json` and change this file to your needs
 * Run `npm install` and `npm start`
+* Visit `http://localhost:8080/admin` and use `admin` to authenticate. You should change the password immediately.
 * Done!
 
 ## API
