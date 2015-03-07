@@ -115,6 +115,14 @@ Notice: You have to login before you are able to use those APIs.
 /api/admin/logout
 ```
 
+## Screenshots
+![Overview](doc/Screenshot1.png)
+![About](doc/Screenshot2.png)
+![Status](doc/Screenshot3.png)
+![IsUp](doc/Screenshot4.png)
+![API](doc/Screenshot5.png)
+![Admin-Backend](doc/Screenshot6.png)
+
 ## Credits
 
 ### Application Icon
