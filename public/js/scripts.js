@@ -59,7 +59,7 @@ function showInformation() {
 			dataString += '<p>The website at <a href="' + data.websiteData.url + '">' + data.websiteData.url + '</a> is called <b>"' + data.websiteData.name + '"</b>, was checked <b>' + data.availability.total + ' times</b> and has an average availability of <b>' + data.availability.average + '</b>.</p>';
 			
 			if (data.lastCheckResult.status !== 'unknown') {
-				var dateRecent = new Date(data.lastFailedCheckResult.time.replace(' ', 'T'));
+				var dateRecent = new Date(data.lastCheckResult.time.replace(' ', 'T'));
 				dataString += '<p>The most recent check on <b>' + dateRecent.toLocaleDateString() + '</b> at <b>' + dateRecent.toLocaleTimeString() + '</b> got the following response: <b>' + data.lastCheckResult.status + '</b></p>';
 			}
 			
