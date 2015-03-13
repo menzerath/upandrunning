@@ -55,11 +55,13 @@ function showInformation() {
 		url: "/api/status/" + website,
 		type: "GET",
 		success: function(data) {
-			var dateRecent = new Date(data.lastCheckResult.time.replace(' ', 'T'));
-
-			var dataString = '<div class="well"><legend>Information about ' + website + '</legend>' +
-				'<p>The website at <a href="' + data.websiteData.url + '">' + data.websiteData.url + '</a> is called <b>"' + data.websiteData.name + '"</b>, was checked <b>' + data.availability.total + ' times</b> and has an average availability of <b>' + data.availability.average + '</b>.</p>' +
-				'<p>The most recent check on <b>' + dateRecent.toLocaleDateString() + '</b> at <b>' + dateRecent.toLocaleTimeString() + '</b> got the following response: <b>' + data.lastCheckResult.status + '</b></p>';
+			var dataString = '<div class="well"><legend>Information about ' + website + '</legend>';
+			dataString += '<p>The website at <a href="' + data.websiteData.url + '">' + data.websiteData.url + '</a> is called <b>"' + data.websiteData.name + '"</b>, was checked <b>' + data.availability.total + ' times</b> and has an average availability of <b>' + data.availability.average + '</b>.</p>';
+			
+			if (data.lastCheckResult.status !== 'unknown') {
+				var dateRecent = new Date(data.lastFailedCheckResult.time.replace(' ', 'T'));
+				dataString += '<p>The most recent check on <b>' + dateRecent.toLocaleDateString() + '</b> at <b>' + dateRecent.toLocaleTimeString() + '</b> got the following response: <b>' + data.lastCheckResult.status + '</b></p>';
+			}
 			
 			if (data.lastFailedCheckResult.status !== 'unknown') {
 				var dateFail = new Date(data.lastFailedCheckResult.time.replace(' ', 'T'));
