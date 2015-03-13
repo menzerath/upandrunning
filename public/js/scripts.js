@@ -34,10 +34,12 @@ $(document).ready(function() {
 			history.replaceState('data', '', '/');
 		}
 	}
+
+	loadWebsiteData();
 });
 
-var informationOriginal;
-var isUpOriginal;
+var informationOriginal = $('#col-form-information').clone();
+var isUpOriginal = $('#col-form-isup').clone();
 
 function showInformation() {
 	var website = $('#input-information').val();
@@ -112,5 +114,64 @@ function resetMain() {
 	$('#bc-feature').css('display', 'none').text('');
 	$('#bc-site').css('display', 'none').text('');
 	history.replaceState('data', '', '/');
-	bindKeypressHandlers();
+}
+
+function loadWebsiteData() {
+	$.ajax({
+		url: "/api/websites/up",
+		type: "GET",
+		success: function(data) {
+			loadedWebsiteData = data.websites;
+			var dataString = '';
+			for (var i = 0; i < loadedWebsiteData.length; i++) {
+				dataString += '<tr><td>' + (i + 1) + '</td><td><a href="' + loadedWebsiteData[i].protocol + '://' + loadedWebsiteData[i].url + '" target="_blank">' + loadedWebsiteData[i].name + '</a></td><td>';
+				
+				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
+					dataString += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
+				} else if (loadedWebsiteData[i].status.indexOf("301") > -1 || loadedWebsiteData[i].status.indexOf("302") > -1) {
+					dataString += ' <span class="label label-warning">' + loadedWebsiteData[i].status + '</span> ';
+				} else {
+					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
+				}
+
+				dataString += '</td><td> <span class="label label-primary" id="label-action" onclick="moreAbout(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
+			}
+			$('#table-websites-up').html(dataString);
+		},
+		error: function(error) {
+			$('#table-websites-up').html('<tr><td colspan="4">An error occured: ' + error + '</td></tr>');
+		}
+	});
+
+	$.ajax({
+		url: "/api/websites/down",
+		type: "GET",
+		success: function(data) {
+			loadedWebsiteData = data.websites;
+			var dataString = '';
+			for (var i = 0; i < loadedWebsiteData.length; i++) {
+				dataString += '<tr><td>' + (i + 1) + '</td><td><a href="' + loadedWebsiteData[i].protocol + '://' + loadedWebsiteData[i].url + '" target="_blank">' + loadedWebsiteData[i].name + '</a></td><td>';
+				
+				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
+					dataString += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
+				} else if (loadedWebsiteData[i].status.indexOf("301") > -1 || loadedWebsiteData[i].status.indexOf("302") > -1) {
+					dataString += ' <span class="label label-warning">' + loadedWebsiteData[i].status + '</span> ';
+				} else {
+					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
+				}
+
+				dataString += '</td><td> <span class="label label-primary" id="label-action" onclick="moreAbout(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
+			}
+			$('#table-websites-down').html(dataString);
+		},
+		error: function(error) {
+			$('#table-websites-down').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
+		}
+	});
+}
+
+function moreAbout(url) {
+	resetInformation();
+	$('#input-information').val(url);
+	showInformation();
 }

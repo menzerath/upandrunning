@@ -67,7 +67,7 @@ function logout() {
 
 function loadWebsites() {
 	$.ajax({
-		url: "/api/admin/website/list",
+		url: "/api/admin/websites",
 		type: "GET",
 		success: function(data) {
 			loadedWebsiteData = data.websites;
@@ -76,9 +76,15 @@ function loadWebsites() {
 				dataString += '<tr><td>' + loadedWebsiteData[i].id + '</td><td>' + loadedWebsiteData[i].name + '</td><td>';
 				
 				if (loadedWebsiteData[i].enabled) {
-					dataString += ' <span class="label label-success" id="label-action" onclick="disableWebsite(' + loadedWebsiteData[i].id + ')">Enabled</span> ';
+					dataString += ' <span class="label label-success" id="label-action" onclick="disableWebsite(' + loadedWebsiteData[i].id + ')">Enabled</span> </td><td>';
 				} else {
-					dataString += ' <span class="label label-warning" id="label-action" onclick="enableWebsite(' + loadedWebsiteData[i].id + ')">Disabled</span> ';
+					dataString += ' <span class="label label-warning" id="label-action" onclick="enableWebsite(' + loadedWebsiteData[i].id + ')">Disabled</span> </td><td>';
+				}
+
+				if (loadedWebsiteData[i].visible) {
+					dataString += ' <span class="label label-success" id="label-action" onclick="invisibleWebsite(' + loadedWebsiteData[i].id + ')">Visbile</span> ';
+				} else {
+					dataString += ' <span class="label label-danger" id="label-action" onclick="visibleWebsite(' + loadedWebsiteData[i].id + ')">Invisible</span> ';
 				}
 				
 				dataString += '</td><td>' + loadedWebsiteData[i].protocol + '</td><td>' + loadedWebsiteData[i].url + '</td><td>';
@@ -105,7 +111,7 @@ function loadWebsites() {
 			$('#table-websites').html(dataString);
 		},
 		error: function(error) {
-			$('#table-websites').html('<tr><td colspan="9">An error occured. Please authenticate again or add a website.</td>');
+			$('#table-websites').html('<tr><td colspan="10">An error occured. Please authenticate again or add a website.</td></tr>');
 		}
 	});
 }
@@ -117,7 +123,7 @@ function addWebsite() {
 
 	if (name.trim() && protocol.trim() && url.trim()) {
 		$.ajax({
-			url: "/api/admin/website/add/" + name + "/" + protocol + "/" + url,
+			url: "/api/admin/websites/add/" + name + "/" + protocol + "/" + url,
 			type: "GET",
 			success: function(data) {
 				$('#input-add-name').val('');
@@ -138,7 +144,7 @@ function addWebsite() {
 
 function enableWebsite(id) {
 	$.ajax({
-		url: "/api/admin/website/enable/" + id,
+		url: "/api/admin/websites/enable/" + id,
 		type: "GET",
 		success: function(data) {
 			loadWebsites();
@@ -152,7 +158,35 @@ function enableWebsite(id) {
 
 function disableWebsite(id) {
 	$.ajax({
-		url: "/api/admin/website/disable/" + id,
+		url: "/api/admin/websites/disable/" + id,
+		type: "GET",
+		success: function(data) {
+			loadWebsites();
+		},
+		error: function(error) {
+			$('#error-text').html(JSON.parse(error.responseText).message);
+			showErrorBox();
+		}
+	});
+}
+
+function visibleWebsite(id) {
+	$.ajax({
+		url: "/api/admin/websites/visible/" + id,
+		type: "GET",
+		success: function(data) {
+			loadWebsites();
+		},
+		error: function(error) {
+			$('#error-text').html(JSON.parse(error.responseText).message);
+			showErrorBox();
+		}
+	});
+}
+
+function invisibleWebsite(id) {
+	$.ajax({
+		url: "/api/admin/websites/invisible/" + id,
 		type: "GET",
 		success: function(data) {
 			loadWebsites();
@@ -184,7 +218,7 @@ function saveWebsite() {
 
 	if (name.trim() && protocol.trim() && url.trim()) {
 		$.ajax({
-			url: "/api/admin/website/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
+			url: "/api/admin/websites/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
 			type: "GET",
 			success: function(data) {
 				cancleSaveWebsite();
@@ -208,7 +242,7 @@ function cancleSaveWebsite() {
 function deleteWebsite(id) {
 	if (window.confirm("Are you sure?")) {
 		$.ajax({
-			url: "/api/admin/website/delete/" + id,
+			url: "/api/admin/websites/delete/" + id,
 			type: "GET",
 			success: function(data) {
 				loadWebsites();

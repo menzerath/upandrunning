@@ -53,7 +53,8 @@
 										<tr>
 											<th>#</th>
 											<th>Name</th>
-											<th>Status</th>
+											<th>Enabled</th>
+											<th>Visible</th>
 											<th>Protocol</th>
 											<th>URL</th>
 											<th>Status</th>
@@ -64,15 +65,7 @@
 									</thead>
 									<tbody id="table-websites">
 										<tr>
-											<td>X</td>
-											<td>No Data loaded</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>None</td>
+											<td colspan="10">Loading data...</td>
 										</tr>
 									</tbody>
 								</table>

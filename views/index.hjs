@@ -87,6 +87,49 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-lg-6" id="col-table-up">
+					<div class="well form-horizontal">
+						<legend>Up</legend>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Status</th>
+									<th width="12%">Actions</th>
+								</tr>
+							</thead>
+							<tbody id="table-websites-up">
+								<tr>
+									<td colspan="4">Loading data...</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-lg-6" id="col-table-down">
+					<div class="well form-horizontal">
+						<legend>Down</legend>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Status</th>
+									<th width="12%">Actions</th>
+								</tr>
+							</thead>
+							<tbody id="table-websites-down">
+								<tr>
+									<td colspan="4">Loading data...</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script src="/js/jquery.min.js"></script>

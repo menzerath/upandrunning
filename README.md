@@ -25,7 +25,6 @@ Notice: Everyone is able to access those APIs.
 	"websiteData": {
 		"id": 1,
 		"name": "My Website",
-		"enabled": true,
 		"url": "https://website.com"
 	},
 	"availability": {
@@ -52,6 +51,31 @@ Notice: Everyone is able to access those APIs.
 Yes / No
 ```
 
+#### List
+```
+/api/websites
+
+{
+	"requestSuccess": true,
+	"websites": [
+		{
+			"name": "My Website",
+			"protocol": "https",
+			"url": "website.com",
+			"status": "200 - OK"
+		}
+	]
+}
+```
+
+```
+/api/websites/up
+```
+
+```
+/api/websites/down
+```
+
 ### Admin
 Notice: You have to login before you are able to use those APIs.
 
@@ -66,6 +90,7 @@ Notice: You have to login before you are able to use those APIs.
 			"id": 1,
 			"name": "My Website",
 			"enabled": true,
+			"visible": true,
 			"protocol": "https",
 			"url": "website.com",
 			"status": "200 - OK",
@@ -89,6 +114,16 @@ Notice: You have to login before you are able to use those APIs.
 #### Disable a Website
 ```
 /api/admin/website/disable/:id
+```
+
+#### Set a Website visible
+```
+/api/admin/website/visible/:id
+```
+
+#### Set a Website invisible
+```
+/api/admin/website/invisible/:id
 ```
 
 #### Edit a Website
@@ -117,12 +152,9 @@ Notice: You have to login before you are able to use those APIs.
 ```
 
 ## Screenshots
-![Overview](doc/Screenshot1.png)
-![About](doc/Screenshot2.png)
-![Status](doc/Screenshot3.png)
-![IsUp](doc/Screenshot4.png)
-![API](doc/Screenshot5.png)
-![Admin-Backend](doc/Screenshot6.png)
+![User-Interface](doc/Screenshot1.png)
+![API](doc/Screenshot2.png)
+![Admin-Backend](doc/Screenshot3.png)
 
 ## Credits
 
