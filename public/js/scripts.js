@@ -139,7 +139,7 @@ function loadWebsiteData() {
 			$('#table-websites-up').html(dataString);
 		},
 		error: function(error) {
-			$('#table-websites-up').html('<tr><td colspan="4">An error occured: ' + error + '</td></tr>');
+			$('#table-websites-up').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
 		}
 	});
 
