@@ -1,12 +1,14 @@
+global.__libBase = __dirname + '/lib/';
+
 var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var bodyParser = require('body-parser');
 
-var db = require('./lib/database');
-var logger = require('./lib/logger');
-var admin = require('./lib/admin');
-var website = require('./lib/website');
+var db = require(__libBase + 'database');
+var logger = require(__libBase + 'logger');
+var admin = require(__libBase + 'admin');
+var website = require(__libBase + 'website');
 
 var app = express();
 
@@ -94,7 +96,9 @@ function checkAllWebsites() {
 	    	logger.info("Checking " + rows.length + " active websites...");
 
 	    	for (var i in rows) {
-		        new website(rows[i].id, rows[i].protocol, rows[i].url).runCheck();
+				if (rows.hasOwnProperty(i)) {
+					new website(rows[i].id, rows[i].protocol, rows[i].url).runCheck();
+				}
 		    }
 	    }
 	});
