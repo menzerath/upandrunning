@@ -21,7 +21,7 @@ function login() {
 		$.ajax({
 			url: "/api/admin/login/" + password,
 			type: "GET",
-			success: function(data) {
+			success: function () {
 				location.reload();
 			},
 			error: function(error) {

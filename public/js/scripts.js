@@ -20,7 +20,7 @@ $(document).ready(function() {
 	});
 
 	if (location.pathname.split("/")[1] == "status") {
-		if (location.pathname.split("/")[2] !== undefined  && location.pathname.split("/")[2] !== "") {
+		if (location.pathname.split("/")[2] !== undefined && location.pathname.split("/")[2] !== "") {
 			$('#input-information').val(location.pathname.split("/")[2]);
 			showInformation();
 		} else {

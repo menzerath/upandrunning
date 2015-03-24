@@ -1,4 +1,10 @@
+# IDE
+.idea
+UpAndRunning.iml
+
+# Application
 config/local.json
 node_modules
-package.sublime-*
-*.log
+
+# NodeJS
+npm-debug.log

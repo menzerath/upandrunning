@@ -13,13 +13,26 @@ router.get('/status/:url', function(req, res) {
 		if (err) {
 			logger.error("Unable to fetch website-status: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
-			return;
-		}
-
-		if (rows[0] === undefined) {
-			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data matching the given url.' });
 		} else {
-			res.send({ requestSuccess: true, websiteData: { id: rows[0].id, name: rows[0].name, url: rows[0].protocol + '://' + rows[0].url }, availability: { ups: rows[0].ups, downs: rows[0].downs, total: rows[0].totalChecks, average: rows[0].avgAvail + '%' }, lastCheckResult: { status: rows[0].status, time: rows[0].time }, lastFailedCheckResult: { status: rows[0].lastFailStatus, time: rows[0].lastFailTime } });
+			if (rows[0] === undefined) {
+				res.status(404).send({
+					requestSuccess: false,
+					message: 'Unable to find any data matching the given url.'
+				});
+			} else {
+				res.send({
+					requestSuccess: true,
+					websiteData: {id: rows[0].id, name: rows[0].name, url: rows[0].protocol + '://' + rows[0].url},
+					availability: {
+						ups: rows[0].ups,
+						downs: rows[0].downs,
+						total: rows[0].totalChecks,
+						average: rows[0].avgAvail + '%'
+					},
+					lastCheckResult: {status: rows[0].status, time: rows[0].time},
+					lastFailedCheckResult: {status: rows[0].lastFailStatus, time: rows[0].lastFailTime}
+				});
+			}
 		}
 	});
 });
@@ -29,15 +42,14 @@ router.get('/isup/:url', function(req, res) {
 		if (err) {
 			logger.error("Unable to fetch website-status: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
-			return;
-		}
-
-		if (rows[0] === undefined) {
-			res.status(404).send('Website unknown');
-		} else if (rows[0].status.indexOf("200") > -1 || rows[0].status.indexOf("301") > -1 || rows[0].status.indexOf("302") > -1) {
-			res.send('Yes');
 		} else {
-			res.send('No');
+			if (rows[0] === undefined) {
+				res.status(404).send('Website unknown');
+			} else if (rows[0].status.indexOf("200") > -1 || rows[0].status.indexOf("301") > -1 || rows[0].status.indexOf("302") > -1) {
+				res.send('Yes');
+			} else {
+				res.send('No');
+			}
 		}
 	});
 });
@@ -46,18 +58,22 @@ router.get('/websites', function(req, res) {
 	db.query("SELECT name, protocol, url, status FROM website WHERE enabled = 1 AND visible = 1;", function(err, rows) {
 		if (err) {
 			logger.error("Unable to fetch websites: " + err.code);
-			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
-			return;
-		}
-
-		if (rows[0] === undefined) {
-			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data.' });
+			res.status(500).send({requestSuccess: false, message: 'Unable to process your request.'});
 		} else {
-			var content = { requestSuccess: true, websites: [] };
-			for (var i = 0; i < rows.length; i++) {
-				content.websites.push({ name: rows[i].name, protocol: rows[i].protocol, url: rows[i].url, status: rows[i].status });
+			if (rows[0] === undefined) {
+				res.status(404).send({requestSuccess: false, message: 'Unable to find any data.'});
+			} else {
+				var content = {requestSuccess: true, websites: []};
+				for (var i = 0; i < rows.length; i++) {
+					content.websites.push({
+						name: rows[i].name,
+						protocol: rows[i].protocol,
+						url: rows[i].url,
+						status: rows[i].status
+					});
+				}
+				res.send(content);
 			}
-			res.send(content);
 		}
 	});
 });
@@ -67,17 +83,21 @@ router.get('/websites/up', function(req, res) {
 		if (err) {
 			logger.error("Unable to fetch websites: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
-			return;
-		}
-
-		if (rows[0] === undefined) {
-			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data.' });
 		} else {
-			var content = { requestSuccess: true, websites: [] };
-			for (var i = 0; i < rows.length; i++) {
-				content.websites.push({ name: rows[i].name, protocol: rows[i].protocol, url: rows[i].url, status: rows[i].status });
+			if (rows[0] === undefined) {
+				res.status(404).send({requestSuccess: false, message: 'Unable to find any data.'});
+			} else {
+				var content = {requestSuccess: true, websites: []};
+				for (var i = 0; i < rows.length; i++) {
+					content.websites.push({
+						name: rows[i].name,
+						protocol: rows[i].protocol,
+						url: rows[i].url,
+						status: rows[i].status
+					});
+				}
+				res.send(content);
 			}
-			res.send(content);
 		}
 	});
 });
@@ -87,17 +107,21 @@ router.get('/websites/down', function(req, res) {
 		if (err) {
 			logger.error("Unable to fetch websites: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
-			return;
-		}
-
-		if (rows[0] === undefined) {
-			res.status(404).send({ requestSuccess: false, message: 'Unable to find any data.' });
 		} else {
-			var content = { requestSuccess: true, websites: [] };
-			for (var i = 0; i < rows.length; i++) {
-				content.websites.push({ name: rows[i].name, protocol: rows[i].protocol, url: rows[i].url, status: rows[i].status });
+			if (rows[0] === undefined) {
+				res.status(404).send({requestSuccess: false, message: 'Unable to find any data.'});
+			} else {
+				var content = {requestSuccess: true, websites: []};
+				for (var i = 0; i < rows.length; i++) {
+					content.websites.push({
+						name: rows[i].name,
+						protocol: rows[i].protocol,
+						url: rows[i].url,
+						status: rows[i].status
+					});
+				}
+				res.send(content);
 			}
-			res.send(content);
 		}
 	});
 });

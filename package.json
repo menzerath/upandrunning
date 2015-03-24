@@ -2,6 +2,12 @@
 	"name": "UpAndRunning",
 	"version": "0.0.1",
 	"private": true,
+  "author": {
+	"name": "Marvin Menzerath",
+	"email": "marvin@menzerath.eu",
+	"url": "https://menzerath.eu/"
+  },
+  "license": "MIT",
 	"scripts": {
 		"start": "node ./bin/www"
 	},

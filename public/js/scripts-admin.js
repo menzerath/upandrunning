@@ -55,7 +55,7 @@ function logout() {
 	$.ajax({
 		url: "/api/admin/logout",
 		type: "GET",
-		success: function(data) {
+		success: function () {
 			location.reload();
 		},
 		error: function(error) {
@@ -125,7 +125,7 @@ function addWebsite() {
 		$.ajax({
 			url: "/api/admin/websites/add/" + name + "/" + protocol + "/" + url,
 			type: "GET",
-			success: function(data) {
+			success: function () {
 				$('#input-add-name').val('');
 				$('#input-add-protocol').val('https');
 				$('#input-add-url').val('');
@@ -146,7 +146,7 @@ function enableWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/enable/" + id,
 		type: "GET",
-		success: function(data) {
+		success: function () {
 			loadWebsites();
 		},
 		error: function(error) {
@@ -160,7 +160,7 @@ function disableWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/disable/" + id,
 		type: "GET",
-		success: function(data) {
+		success: function () {
 			loadWebsites();
 		},
 		error: function(error) {
@@ -174,7 +174,7 @@ function visibleWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/visible/" + id,
 		type: "GET",
-		success: function(data) {
+		success: function () {
 			loadWebsites();
 		},
 		error: function(error) {
@@ -188,7 +188,7 @@ function invisibleWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/invisible/" + id,
 		type: "GET",
-		success: function(data) {
+		success: function () {
 			loadWebsites();
 		},
 		error: function(error) {
@@ -220,7 +220,7 @@ function saveWebsite() {
 		$.ajax({
 			url: "/api/admin/websites/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
 			type: "GET",
-			success: function(data) {
+			success: function () {
 				cancleSaveWebsite();
 				loadWebsites();
 			},
@@ -244,7 +244,7 @@ function deleteWebsite(id) {
 		$.ajax({
 			url: "/api/admin/websites/delete/" + id,
 			type: "GET",
-			success: function(data) {
+			success: function () {
 				loadWebsites();
 			},
 			error: function(error) {
@@ -262,7 +262,7 @@ function changePassword() {
 		$.ajax({
 			url: "/api/admin/settings/password/" + newPassword,
 			type: "GET",
-			success: function(data) {
+			success: function () {
 				$('#input-new-password').val('');
 				$('#success-text').html("Password successfully changed.");
 				showSuccessBox();
