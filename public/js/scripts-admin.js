@@ -84,7 +84,7 @@ function loadWebsites() {
 				if (loadedWebsiteData[i].visible) {
 					dataString += ' <span class="label label-success" id="label-action" onclick="invisibleWebsite(' + loadedWebsiteData[i].id + ')">Visbile</span> ';
 				} else {
-					dataString += ' <span class="label label-danger" id="label-action" onclick="visibleWebsite(' + loadedWebsiteData[i].id + ')">Invisible</span> ';
+					dataString += ' <span class="label label-warning" id="label-action" onclick="visibleWebsite(' + loadedWebsiteData[i].id + ')">Invisible</span> ';
 				}
 				
 				dataString += '</td><td>' + loadedWebsiteData[i].protocol + '</td><td>' + loadedWebsiteData[i].url + '</td><td>';
