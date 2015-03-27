@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require(__libBase + 'database');
-var logger = require(__libBase + 'logger');
-var admin = require(__libBase + 'admin');
+var db = require('../lib/database');
+var logger = require('../lib/logger');
+var admin = require('../lib/admin');
 
 router.get('/', function(req, res) {
 	res.send({ requestSuccess: true, message: 'Welcome to UpAndRunning\'s Admin-API!' });

@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require(__libBase + 'database');
-var logger = require(__libBase + 'logger');
+var db = require('../lib/database');
+var logger = require('../lib/logger');
 
 router.get('/', function(req, res) {
 	res.send({ requestSuccess: true, message: 'Welcome to UpAndRunning\'s API!' });
