@@ -4,12 +4,12 @@ var router = express.Router();
 var db = require('../lib/database');
 var logger = require('../lib/logger');
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
 	res.send({ requestSuccess: true, message: 'Welcome to UpAndRunning\'s API!' });
 });
 
-router.get('/status/:url', function(req, res) {
-	db.query("SELECT * FROM website WHERE url = ? AND enabled = 1 AND visible = 1;", [ req.params.url ], function(err, rows) {
+router.get('/status/:url', function (req, res) {
+	db.query("SELECT * FROM website WHERE url = ? AND enabled = 1 AND visible = 1;", [req.params.url], function (err, rows) {
 		if (err) {
 			logger.error("Unable to fetch website-status: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
@@ -22,23 +22,23 @@ router.get('/status/:url', function(req, res) {
 			} else {
 				res.send({
 					requestSuccess: true,
-					websiteData: {id: rows[0].id, name: rows[0].name, url: rows[0].protocol + '://' + rows[0].url},
+					websiteData: { id: rows[0].id, name: rows[0].name, url: rows[0].protocol + '://' + rows[0].url },
 					availability: {
 						ups: rows[0].ups,
 						downs: rows[0].downs,
 						total: rows[0].totalChecks,
 						average: rows[0].avgAvail + '%'
 					},
-					lastCheckResult: {status: rows[0].status, time: rows[0].time},
-					lastFailedCheckResult: {status: rows[0].lastFailStatus, time: rows[0].lastFailTime}
+					lastCheckResult: { status: rows[0].status, time: rows[0].time },
+					lastFailedCheckResult: { status: rows[0].lastFailStatus, time: rows[0].lastFailTime }
 				});
 			}
 		}
 	});
 });
 
-router.get('/isup/:url', function(req, res) {
-	db.query("SELECT status FROM website WHERE url = ? AND enabled = 1 AND visible = 1;", [ req.params.url ], function(err, rows) {
+router.get('/isup/:url', function (req, res) {
+	db.query("SELECT status FROM website WHERE url = ? AND enabled = 1 AND visible = 1;", [req.params.url], function (err, rows) {
 		if (err) {
 			logger.error("Unable to fetch website-status: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
@@ -54,16 +54,16 @@ router.get('/isup/:url', function(req, res) {
 	});
 });
 
-router.get('/websites', function(req, res) {
-	db.query("SELECT name, protocol, url, status FROM website WHERE enabled = 1 AND visible = 1;", function(err, rows) {
+router.get('/websites', function (req, res) {
+	db.query("SELECT name, protocol, url, status FROM website WHERE enabled = 1 AND visible = 1;", function (err, rows) {
 		if (err) {
 			logger.error("Unable to fetch websites: " + err.code);
-			res.status(500).send({requestSuccess: false, message: 'Unable to process your request.'});
+			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
 		} else {
 			if (rows[0] === undefined) {
-				res.status(404).send({requestSuccess: false, message: 'Unable to find any data.'});
+				res.status(404).send({ requestSuccess: false, message: 'Unable to find any data.' });
 			} else {
-				var content = {requestSuccess: true, websites: []};
+				var content = { requestSuccess: true, websites: [] };
 				for (var i = 0; i < rows.length; i++) {
 					content.websites.push({
 						name: rows[i].name,
@@ -78,16 +78,16 @@ router.get('/websites', function(req, res) {
 	});
 });
 
-router.get('/websites/up', function(req, res) {
-	db.query("SELECT name, protocol, url, status FROM website WHERE status = '200 - OK' AND enabled = 1 AND visible = 1;", function(err, rows) {
+router.get('/websites/up', function (req, res) {
+	db.query("SELECT name, protocol, url, status FROM website WHERE status = '200 - OK' AND enabled = 1 AND visible = 1;", function (err, rows) {
 		if (err) {
 			logger.error("Unable to fetch websites: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
 		} else {
 			if (rows[0] === undefined) {
-				res.status(404).send({requestSuccess: false, message: 'Unable to find any data.'});
+				res.status(404).send({ requestSuccess: false, message: 'Unable to find any data.' });
 			} else {
-				var content = {requestSuccess: true, websites: []};
+				var content = { requestSuccess: true, websites: [] };
 				for (var i = 0; i < rows.length; i++) {
 					content.websites.push({
 						name: rows[i].name,
@@ -102,16 +102,16 @@ router.get('/websites/up', function(req, res) {
 	});
 });
 
-router.get('/websites/down', function(req, res) {
-	db.query("SELECT name, protocol, url, status FROM website WHERE status != '200 - OK' AND enabled = 1 AND visible = 1;", function(err, rows) {
+router.get('/websites/down', function (req, res) {
+	db.query("SELECT name, protocol, url, status FROM website WHERE status != '200 - OK' AND enabled = 1 AND visible = 1;", function (err, rows) {
 		if (err) {
 			logger.error("Unable to fetch websites: " + err.code);
 			res.status(500).send({ requestSuccess: false, message: 'Unable to process your request.' });
 		} else {
 			if (rows[0] === undefined) {
-				res.status(404).send({requestSuccess: false, message: 'Unable to find any data.'});
+				res.status(404).send({ requestSuccess: false, message: 'Unable to find any data.' });
 			} else {
-				var content = {requestSuccess: true, websites: []};
+				var content = { requestSuccess: true, websites: [] };
 				for (var i = 0; i < rows.length; i++) {
 					content.websites.push({
 						name: rows[i].name,

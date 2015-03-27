@@ -17,37 +17,43 @@ function hideErrorBox() {
 	$('#error-box').fadeOut(200);
 }
 
-$(document).ready(function() {
-	$('#input-add-name').keypress(function(event) {
+$(document).ready(function () {
+	$('#input-add-name').keypress(function (event) {
 		if (event.keyCode == 13) {
 			addWebsite();
 		}
 	});
-
-	$('#input-add-url').keypress(function(event) {
+	
+	$('#input-add-url').keypress(function (event) {
 		if (event.keyCode == 13) {
 			addWebsite();
 		}
 	});
-
-	$('#input-edit-name').keypress(function(event) {
+	
+	$('#input-edit-name').keypress(function (event) {
 		if (event.keyCode == 13) {
 			saveWebsite();
 		}
 	});
-
-	$('#input-edit-url').keypress(function(event) {
+	
+	$('#input-edit-url').keypress(function (event) {
 		if (event.keyCode == 13) {
 			saveWebsite();
 		}
 	});
-
-	$('#input-new-password').keypress(function(event) {
+	
+	$('#input-new-password').keypress(function (event) {
 		if (event.keyCode == 13) {
 			changePassword();
 		}
 	});
-
+	
+	$('#input-new-interval').keypress(function (event) {
+		if (event.keyCode == 13) {
+			changeInterval();
+		}
+	});
+	
 	loadWebsites();
 });
 
@@ -58,7 +64,7 @@ function logout() {
 		success: function () {
 			location.reload();
 		},
-		error: function(error) {
+		error: function (error) {
 			$('#error-text').html(JSON.parse(error.responseText).message);
 			showErrorBox();
 		}
@@ -69,7 +75,7 @@ function loadWebsites() {
 	$.ajax({
 		url: "/api/admin/websites",
 		type: "GET",
-		success: function(data) {
+		success: function (data) {
 			loadedWebsiteData = data.websites;
 			var dataString = '';
 			for (var i = 0; i < loadedWebsiteData.length; i++) {
@@ -80,7 +86,7 @@ function loadWebsites() {
 				} else {
 					dataString += ' <span class="label label-warning" id="label-action" onclick="enableWebsite(' + loadedWebsiteData[i].id + ')">Disabled</span> </td><td>';
 				}
-
+				
 				if (loadedWebsiteData[i].visible) {
 					dataString += ' <span class="label label-success" id="label-action" onclick="invisibleWebsite(' + loadedWebsiteData[i].id + ')">Visbile</span> ';
 				} else {
@@ -88,7 +94,7 @@ function loadWebsites() {
 				}
 				
 				dataString += '</td><td>' + loadedWebsiteData[i].protocol + '</td><td>' + loadedWebsiteData[i].url + '</td><td>';
-
+				
 				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
 					dataString += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
 				} else if (loadedWebsiteData[i].status.indexOf("301") > -1 || loadedWebsiteData[i].status.indexOf("302") > -1) {
@@ -96,21 +102,21 @@ function loadWebsites() {
 				} else {
 					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
 				}
-
+				
 				if (loadedWebsiteData[i].time === '0000-00-00 00:00:00') {
 					dataString += '</td><td>never</td>';
 				} else {
 					var date = new Date(loadedWebsiteData[i].time.replace(' ', 'T'));
 					dataString += '</td><td>' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td>';
 				}
-
+				
 				dataString += '<td>' + loadedWebsiteData[i].avgAvail + '</td>';
-
+				
 				dataString += '<td><span class="label label-primary" id="label-action" onclick="editWebsite(' + loadedWebsiteData[i].id + ')">Edit</span> <span class="label label-danger" id="label-action" onclick="deleteWebsite(' + loadedWebsiteData[i].id + ')">Delete</span></td></tr>';
 			}
 			$('#table-websites').html(dataString);
 		},
-		error: function(error) {
+		error: function (error) {
 			$('#table-websites').html('<tr><td colspan="10">An error occured. Please authenticate again or add a website.</td></tr>');
 		}
 	});
@@ -120,7 +126,7 @@ function addWebsite() {
 	var name = $('#input-add-name').val();
 	var protocol = $('#input-add-protocol').val();
 	var url = $('#input-add-url').val();
-
+	
 	if (name.trim() && protocol.trim() && url.trim()) {
 		$.ajax({
 			url: "/api/admin/websites/add/" + name + "/" + protocol + "/" + url,
@@ -131,7 +137,7 @@ function addWebsite() {
 				$('#input-add-url').val('');
 				loadWebsites();
 			},
-			error: function(error) {
+			error: function (error) {
 				$('#error-text').html(JSON.parse(error.responseText).message);
 				showErrorBox();
 			}
@@ -149,7 +155,7 @@ function enableWebsite(id) {
 		success: function () {
 			loadWebsites();
 		},
-		error: function(error) {
+		error: function (error) {
 			$('#error-text').html(JSON.parse(error.responseText).message);
 			showErrorBox();
 		}
@@ -163,7 +169,7 @@ function disableWebsite(id) {
 		success: function () {
 			loadWebsites();
 		},
-		error: function(error) {
+		error: function (error) {
 			$('#error-text').html(JSON.parse(error.responseText).message);
 			showErrorBox();
 		}
@@ -177,7 +183,7 @@ function visibleWebsite(id) {
 		success: function () {
 			loadWebsites();
 		},
-		error: function(error) {
+		error: function (error) {
 			$('#error-text').html(JSON.parse(error.responseText).message);
 			showErrorBox();
 		}
@@ -191,7 +197,7 @@ function invisibleWebsite(id) {
 		success: function () {
 			loadWebsites();
 		},
-		error: function(error) {
+		error: function (error) {
 			$('#error-text').html(JSON.parse(error.responseText).message);
 			showErrorBox();
 		}
@@ -201,7 +207,7 @@ function invisibleWebsite(id) {
 function editWebsite(id) {
 	editId = id;
 	$('#form-edit-website').fadeIn(200);
-
+	
 	for (var i = 0; i < loadedWebsiteData.length; i++) {
 		if (id === loadedWebsiteData[i].id) {
 			$('#input-edit-name').val(loadedWebsiteData[i].name);
@@ -215,7 +221,7 @@ function saveWebsite() {
 	var name = $('#input-edit-name').val();
 	var protocol = $('#input-edit-protocol').val();
 	var url = $('#input-edit-url').val();
-
+	
 	if (name.trim() && protocol.trim() && url.trim()) {
 		$.ajax({
 			url: "/api/admin/websites/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
@@ -224,7 +230,7 @@ function saveWebsite() {
 				cancleSaveWebsite();
 				loadWebsites();
 			},
-			error: function(error) {
+			error: function (error) {
 				$('#error-text').html(JSON.parse(error.responseText).message);
 				showErrorBox();
 			}
@@ -247,7 +253,7 @@ function deleteWebsite(id) {
 			success: function () {
 				loadWebsites();
 			},
-			error: function(error) {
+			error: function (error) {
 				$('#error-text').html(JSON.parse(error.responseText).message);
 				showErrorBox();
 			}
@@ -257,7 +263,7 @@ function deleteWebsite(id) {
 
 function changePassword() {
 	var newPassword = $('#input-new-password').val();
-
+	
 	if (newPassword.trim()) {
 		$.ajax({
 			url: "/api/admin/settings/password/" + newPassword,
@@ -267,13 +273,36 @@ function changePassword() {
 				$('#success-text').html("Password successfully changed.");
 				showSuccessBox();
 			},
-			error: function(error) {
+			error: function (error) {
 				$('#error-text').html(JSON.parse(error.responseText).message);
 				showErrorBox();
 			}
 		});
 	} else {
 		$('#error-text').html("Please enter a valid password to change your password.");
+		showErrorBox();
+	}
+}
+
+function changeInterval() {
+	var newInterval = $('#input-new-interval').val();
+	
+	if (newInterval.trim() && !(isNaN(newInterval) || newInterval < 1 || newInterval > 60)) {
+		$.ajax({
+			url: "/api/admin/settings/interval/" + newInterval,
+			type: "GET",
+			success: function () {
+				$('#input-new-interval').val(newInterval);
+				$('#success-text').html("Interval successfully changed.");
+				showSuccessBox();
+			},
+			error: function (error) {
+				$('#error-text').html(JSON.parse(error.responseText).message);
+				showErrorBox();
+			}
+		});
+	} else {
+		$('#error-text').html("Please enter a valid interval (numbers between 1 and 60) to change it.");
 		showErrorBox();
 	}
 }
