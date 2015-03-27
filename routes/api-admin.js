@@ -149,6 +149,12 @@ router.get('/settings/interval/:interval', function (req, res) {
 	});
 });
 
+router.get('/check', function (req, res) {
+	if (!req.session.loggedin) { res.status(401).send({ requestSuccess: false, message: 'Unauthorized' }); return; }
+	global.CHECK_NOW = true;
+	res.send({ requestSuccess: true });
+});
+
 router.get('/login/:password', function (req, res) {
 	new admin().validatePassword(req.params.password, function (status, error) {
 		if (status === false) {

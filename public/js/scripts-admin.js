@@ -306,3 +306,23 @@ function changeInterval() {
 		showErrorBox();
 	}
 }
+
+function checkNow() {
+	$('#button-check-now').text('Please wait...');
+	$('#button-check-now').prop('disabled', true);
+	$.ajax({
+		url: "/api/admin/check",
+		type: "GET",
+		success: function () {
+			setTimeout(function () {
+				loadWebsites();
+				$('#button-check-now').text('Check Now');
+				$('#button-check-now').prop('disabled', false);
+			}, 1000);
+		},
+		error: function (error) {
+			$('#error-text').html(JSON.parse(error.responseText).message);
+			showErrorBox();
+		}
+	});
+}

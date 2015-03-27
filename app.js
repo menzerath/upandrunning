@@ -96,6 +96,13 @@ setTimeout(function () {
 	startTimer();
 }, 3 * 1000);
 
+setInterval(function () {
+	if (global.CHECK_NOW) {
+		global.CHECK_NOW = false;
+		checkAllWebsites();
+	}
+}, 1000);
+
 function startTimer() {
 	setInterval(function () {
 		checkAllWebsites();
