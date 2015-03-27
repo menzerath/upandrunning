@@ -1,7 +1,7 @@
 ﻿var express = require('express');
 var session = require('express-session');
-var path = require('path');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 var db = require('./lib/database');
 var logger = require('./lib/logger');
@@ -49,7 +49,6 @@ app.use(session({ secret: 'mySecret', resave: false, saveUninitialized: false })
 app.use(require('morgan')('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // add our custom header

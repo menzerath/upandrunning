@@ -1,26 +1,25 @@
 {
-  "name": "UpAndRunning",
-  "version": "0.0.1",
-  "private": true,
-  "author": {
-    "name": "Marvin Menzerath",
-    "email": "marvin@menzerath.eu",
-    "url": "https://menzerath.eu/"
-  },
-  "license": "MIT",
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.12.2",
-    "config": "~1.12.0",
-    "express": "~4.12.3",
-    "express-session": "~1.10.4",
-    "hjs": "~0.0.6",
-    "less-middleware": "~2.0.1",
-    "morgan": "~1.5.2",
-    "mysql": "~2.6.1",
-    "request": "~2.54.0",
-    "winston": "~0.9.0"
-  }
+	"name": "UpAndRunning",
+	"version": "0.0.1",
+	"private": true,
+	"author": {
+		"name": "Marvin Menzerath",
+		"email": "marvin@menzerath.eu",
+		"url": "https://menzerath.eu/"
+	},
+	"license": "MIT",
+	"scripts": {
+		"start": "node ./bin/www"
+	},
+	"dependencies": {
+		"body-parser": "~1.12.2",
+		"config": "~1.12.0",
+		"express": "~4.12.3",
+		"express-session": "~1.10.4",
+		"hjs": "~0.0.6",
+		"morgan": "~1.5.2",
+		"mysql": "~2.6.1",
+		"request": "~2.54.0",
+		"winston": "~0.9.0"
+	}
 }

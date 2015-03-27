@@ -12,6 +12,7 @@ $(document).ready(function() {
 			login();
 		}
 	});
+	$('#input-password').focus();
 });
 
 function login() {
