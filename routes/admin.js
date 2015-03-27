@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
 	if (req.session.loggedin) {
-		res.render('admin');
+		res.render('admin', { version: { node: process.version, app: require('../package.json').version } });
 	} else {
 		res.redirect('/admin/login');
 	}
