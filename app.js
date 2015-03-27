@@ -38,6 +38,21 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 				});
 			}
 		});
+		
+		db.query("SELECT value FROM settings where name = 'interval';", function (err, rows) {
+			if (err) { logger.error("Unable to check for interval: " + err.code); return; }
+			
+			if (typeof rows[0] != 'undefined') {
+				global.INTERVAL = rows[0].value;
+				logger.info("Set interval to " + global.INTERVAL + " minutes");
+			} else {
+				db.query("INSERT INTO settings (name, value) VALUES ('interval', 5);", function (err, rows) {
+					if (err) { logger.error("Unable to add check-interval: " + err.code); return; }
+					global.INTERVAL = 5;
+					logger.info("Set interval to default-value of 5 minutes");
+				});
+			}
+		});
 	}
 });
 
@@ -75,14 +90,17 @@ app.use(function (err, req, res, next) {
 	res.status(err.status || 500).render('error', { code: err.status, message: err.message });
 });
 
-// check all the websites now (after a 3 second init-delay) and then every 5 minutes
+// check all the websites now (after a 3 second init-delay) and then according to the interval
 setTimeout(function () {
 	checkAllWebsites();
+	startTimer();
 }, 3 * 1000);
 
-setInterval(function () {
-	checkAllWebsites();
-}, 5 * 60 * 1000);
+function startTimer() {
+	setInterval(function () {
+		checkAllWebsites();
+	}, global.INTERVAL * 60 * 1000);
+}
 
 // "check all websites"-function
 function checkAllWebsites() {
