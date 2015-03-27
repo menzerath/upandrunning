@@ -90,12 +90,13 @@ app.use(function (err, req, res, next) {
 	res.status(err.status || 500).render('error', { code: err.status, message: err.message });
 });
 
-// check all the websites now (after a 3 second init-delay) and then according to the interval
+// check all the websites now (after a 3 second init-delay)
 setTimeout(function () {
 	checkAllWebsites();
 	startTimer();
 }, 3 * 1000);
 
+// checks if the "check now"-button was clicked
 setInterval(function () {
 	if (global.CHECK_NOW) {
 		global.CHECK_NOW = false;
@@ -103,9 +104,11 @@ setInterval(function () {
 	}
 }, 1000);
 
+// checks all websites according to the interval
 function startTimer() {
-	setInterval(function () {
+	setTimeout(function () {
 		checkAllWebsites();
+		startTimer();
 	}, global.INTERVAL * 60 * 1000);
 }
 
