@@ -126,8 +126,19 @@
 									<legend>Settings</legend>
 									<fieldset>
 										<div class="form-group">
-											<label class="col-lg-3 control-label">New Password:</label>
-											<div class="col-lg-6">
+											<label class="col-lg-2 control-label">Title:</label>
+											<div class="col-lg-7">
+												<input class="form-control" id="input-new-title" placeholder="UpAndRunning" value="{{ title }}">
+											</div>
+											<div class="col-lg-3">
+												<button type="button" class="btn btn-primary pull-right" id="button-change-title" onclick="changeTitle()">Save</button>
+											</div>
+										</div>
+									</fieldset>
+									<fieldset>
+										<div class="form-group">
+											<label class="col-lg-2 control-label">Password:</label>
+											<div class="col-lg-7">
 												<input type="password" class="form-control" id="input-new-password" placeholder="P4sSW0rD">
 											</div>
 											<div class="col-lg-3">
@@ -137,8 +148,8 @@
 									</fieldset>
 									<fieldset>
 										<div class="form-group">
-											<label class="col-lg-3 control-label">New Interval:</label>
-											<div class="col-lg-3">
+											<label class="col-lg-2 control-label">Interval:</label>
+											<div class="col-lg-4">
 												<input type="number" class="form-control" id="input-new-interval" min="1" max="60" placeholder="5" value="{{ interval }}">
 											</div>
 											<label class="col-lg-3 control-label">Minutes</label>

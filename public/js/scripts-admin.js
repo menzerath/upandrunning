@@ -27,6 +27,12 @@ $(document).ready(function () {
 		}
 	});
 	
+	$('#input-new-title').keypress(function (event) {
+		if (event.keyCode == 13) {
+			changeTitle();
+		}
+	});
+	
 	$('#input-new-password').keypress(function (event) {
 		if (event.keyCode == 13) {
 			changePassword();
@@ -303,6 +309,37 @@ function deleteWebsite(id) {
 	}
 }
 
+function changeTitle() {
+	var newTitle = $('#input-new-title').val();
+	
+	if (newTitle.trim()) {
+		$.ajax({
+			url: "/api/admin/settings/title/" + newTitle,
+			type: "GET",
+			success: function () {
+				$('.bottom-right').notify({
+					type: 'success',
+					message: { text: "Title successfully changed.\nReload this page to see your changes." },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
+			},
+			error: function (error) {
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
+			}
+		});
+	} else {
+		$('.bottom-right').notify({
+			type: 'danger',
+			message: { text: "Please enter a valid title to change it." },
+			fadeOut: { enabled: true, delay: 3000 }
+		}).show();
+	}
+}
+
 function changePassword() {
 	var newPassword = $('#input-new-password').val();
 	
@@ -330,7 +367,7 @@ function changePassword() {
 	} else {
 		$('.bottom-right').notify({
 			type: 'danger',
-			message: { text: "Please enter a valid password to change your password." },
+			message: { text: "Please enter a valid password to change it." },
 			fadeOut: { enabled: true, delay: 3000 }
 		}).show();
 	}
