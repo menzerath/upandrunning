@@ -29,6 +29,21 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 		process.exit(1);
 	} else {
 		logger.info("Settings-Database successfully prepared");
+		
+		db.query("SELECT value FROM settings where name = 'title';", function (err, rows) {
+			if (err) { logger.error("Unable to check for title: " + err.code); return; }
+			
+			if (typeof rows[0] != 'undefined') {
+				global.TITLE = rows[0].value;
+			} else {
+				db.query("INSERT INTO settings (name, value) VALUES ('title', 'UpAndRunning');", function (err, rows) {
+					if (err) { logger.error("Unable to add check-interval: " + err.code); return; }
+					global.TITLE = "UpAndRunning";
+					logger.info("Set title to default-value of \"UpAndRunning\"");
+				});
+			}
+		});
+
 		new admin().exists(function (status) {
 			if (status === false) {
 				new admin().addAdmin("admin", function (status) {

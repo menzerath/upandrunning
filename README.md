@@ -128,6 +128,11 @@ Notice: You have to login before you are able to use those APIs.
 /api/admin/website/delete/:id
 ```
 
+#### Change Application-Title
+```
+/api/admin/settings/title/:title
+```
+
 #### Change Admin-Password
 ```
 /api/admin/settings/password/:password

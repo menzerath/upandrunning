@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Administration | UpAndRunning</title>
+	<title>Administration | {{ title }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/paper/bootstrap.min.css" media="screen">
 	<link rel="stylesheet" href="/css/style.css" media="screen">
@@ -12,7 +12,7 @@
 	<div class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="/" class="navbar-brand">UpAndRunning</a>
+				<a href="/" class="navbar-brand">{{ title }}</a>
 				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -92,7 +92,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-9">
+					<div class="col-lg-6">
 						<div class="well form-horizontal">
 							<legend>Add Website</legend>
 							<fieldset>
@@ -119,38 +119,42 @@
 							</fieldset>
 						</div>
 					</div>
-					<div class="col-lg-3">
+					<div class="col-lg-6">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="well form-horizontal">
+									<legend>Settings</legend>
 									<fieldset>
-										<legend>Password</legend>
 										<div class="form-group">
-											<div class="col-lg-12">
-												<input type="password" class="form-control" id="input-new-password" placeholder="New Password">
+											<label class="col-lg-2 control-label">Title:</label>
+											<div class="col-lg-7">
+												<input class="form-control" id="input-new-title" placeholder="UpAndRunning" value="{{ title }}">
 											</div>
-										</div>
-										<div class="form-group">
-											<div class="col-lg-12">
-												<button type="button" class="btn btn-primary" id="button-change-password" onclick="changePassword()">Change</button>
+											<div class="col-lg-3">
+												<button type="button" class="btn btn-primary pull-right" id="button-change-title" onclick="changeTitle()">Save</button>
 											</div>
 										</div>
 									</fieldset>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="well form-horizontal">
 									<fieldset>
-										<legend>Interval</legend>
 										<div class="form-group">
-											<div class="col-lg-8">
+											<label class="col-lg-2 control-label">Password:</label>
+											<div class="col-lg-7">
+												<input type="password" class="form-control" id="input-new-password" placeholder="P4sSW0rD">
+											</div>
+											<div class="col-lg-3">
+												<button type="button" class="btn btn-primary pull-right" id="button-change-password" onclick="changePassword()">Save</button>
+											</div>
+										</div>
+									</fieldset>
+									<fieldset>
+										<div class="form-group">
+											<label class="col-lg-2 control-label">Interval:</label>
+											<div class="col-lg-4">
 												<input type="number" class="form-control" id="input-new-interval" min="1" max="60" placeholder="5" value="{{ interval }}">
 											</div>
-											<label class="col-lg-4 control-label">Minutes</label>
-										</div>
-										<div class="form-group">
-											<div class="col-lg-12">
-												<button type="button" class="btn btn-primary" id="button-change-interval" onclick="changeInterval()">Change</button>
+											<label class="col-lg-3 control-label">Minutes</label>
+											<div class="col-lg-3">
+												<button type="button" class="btn btn-primary pull-right" id="button-change-interval" onclick="changeInterval()">Save</button>
 											</div>
 										</div>
 									</fieldset>
@@ -166,6 +170,11 @@
 	<footer class="footer">
 		<div class="container">
 			<p class="text-footer">Powered by <b>UpAndRunning v{{ version.app }}</b> and <b>Node.js {{ version.node }}</b></p>
+		</div>
+	</footer>
+	<footer class="footer">
+		<div class="container">
+			<p class="text-footer">Powered by <a href="https://github.com/MarvinMenzerath/UpAndRunning" target="_blank"><b>UpAndRunning</b></a> <b>v{{ version.app }}</b> and <a href="https://nodejs.org/" target="_blank"><b>Node.js</b></a> <b>{{ version.node }}</b>.</p>
 		</div>
 	</footer>
 

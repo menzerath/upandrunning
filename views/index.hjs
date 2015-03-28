@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>UpAndRunning</title>
+	<title>{{ title }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/paper/bootstrap.min.css" media="screen">
 	<link rel="stylesheet" href="/css/style.css" media="screen">
@@ -12,7 +12,7 @@
 	<div class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="/" class="navbar-brand">UpAndRunning</a>
+				<a href="/" class="navbar-brand">{{ title }}</a>
 				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -20,12 +20,7 @@
 				</button>
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav navbar-left">
-					<li><a onclick="showInformationBox()" style="cursor:pointer">What is this?</a></li>
-				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="https://twitter.com/MarvinMenzerath" target="_blank">Twitter</a></li>
-					<li><a href="https://github.com/MarvinMenzerath/UpAndRunning" target="_blank">GitHub</a></li>
 					<li><a href="/api/" target="_blank">API</a></li>
 				</ul>
 			</div>
@@ -40,14 +35,6 @@
 					<li id="bc-site" class="active"></li>
 				</ul>
 			</div>
-		</div>
-		<div class="jumbotron" id="what-is-this">
-			<h1>Welcome to UpAndRunning!</h1>
-			<p>UpAndRunning is a lightweight Node.JS application which monitors all of your websites for availability and offers a simple JSON-API.</p>
-			<p>
-				<a href="https://github.com/MarvinMenzerath/UpAndRunning" target="_blank" class="btn btn-primary btn-lg">Learn more</a>
-				<a class="btn btn-default btn-lg" onclick="hideInformationBox()">OK, got it</a>
-			</p>
 		</div>
 		<div class="row">
 			<div class="col-lg-6" id="col-form-information">
@@ -126,6 +113,12 @@
 			</div>
 		</div>
 	</div>
+	<footer class="footer">
+		<div class="container">
+			<p class="text-footer">Powered by <a href="https://github.com/MarvinMenzerath/UpAndRunning" target="_blank"><b>UpAndRunning</b></a> and <a href="https://nodejs.org/" target="_blank"><b>Node.js</b></a>.</p>
+		</div>
+	</footer>
+
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="/js/scripts.js"></script>
