@@ -68,14 +68,6 @@ Yes / No
 }
 ```
 
-```
-/api/websites/up
-```
-
-```
-/api/websites/down
-```
-
 ### Admin
 Notice: You have to login before you are able to use those APIs.
 

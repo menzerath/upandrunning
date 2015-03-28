@@ -120,53 +120,47 @@ function resetMain() {
 
 function loadWebsiteData() {
 	$.ajax({
-		url: "/api/websites/up",
+		url: "/api/websites",
 		type: "GET",
 		success: function (data) {
 			loadedWebsiteData = data.websites;
-			var dataString = '';
+			var dataStringUp = '';
+			var dataStringDown = '';
+			var newEntry = '';
 			for (var i = 0; i < loadedWebsiteData.length; i++) {
-				dataString += '<tr><td>' + (i + 1) + '</td><td><a href="' + loadedWebsiteData[i].protocol + '://' + loadedWebsiteData[i].url + '" target="_blank">' + loadedWebsiteData[i].name + '</a></td><td>';
+				newEntry = '';
+				
+				newEntry += '<tr><td>' + (i + 1) + '</td><td><a href="' + loadedWebsiteData[i].protocol + '://' + loadedWebsiteData[i].url + '" target="_blank">' + loadedWebsiteData[i].name + '</a></td><td>';
 				
 				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
-					dataString += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
+					newEntry += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
 				} else if (loadedWebsiteData[i].status.indexOf("301") > -1 || loadedWebsiteData[i].status.indexOf("302") > -1) {
-					dataString += ' <span class="label label-warning">' + loadedWebsiteData[i].status + '</span> ';
+					newEntry += ' <span class="label label-warning">' + loadedWebsiteData[i].status + '</span> ';
 				} else {
-					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
+					newEntry += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
 				}
 				
-				dataString += '</td><td> <span class="label label-primary" id="label-action" onclick="moreAbout(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
+				newEntry += '</td><td> <span class="label label-primary" id="label-action" onclick="moreAbout(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
+				
+				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
+					dataStringUp += newEntry;
+				} else {
+					dataStringDown += newEntry;
+				}
 			}
-			$('#table-websites-up').html(dataString);
+			
+			if (dataStringUp === '') {
+				dataStringUp = '<tr><td colspan="4">No websites found.</td></tr>';
+			}
+			if (dataStringDown === '') {
+				dataStringDown = '<tr><td colspan="4">No websites found.</td></tr>';
+			}
+
+			$('#table-websites-up').html(dataStringUp);
+			$('#table-websites-down').html(dataStringDown);
 		},
 		error: function (error) {
 			$('#table-websites-up').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
-		}
-	});
-	
-	$.ajax({
-		url: "/api/websites/down",
-		type: "GET",
-		success: function (data) {
-			loadedWebsiteData = data.websites;
-			var dataString = '';
-			for (var i = 0; i < loadedWebsiteData.length; i++) {
-				dataString += '<tr><td>' + (i + 1) + '</td><td><a href="' + loadedWebsiteData[i].protocol + '://' + loadedWebsiteData[i].url + '" target="_blank">' + loadedWebsiteData[i].name + '</a></td><td>';
-				
-				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
-					dataString += ' <span class="label label-success">' + loadedWebsiteData[i].status + '</span> ';
-				} else if (loadedWebsiteData[i].status.indexOf("301") > -1 || loadedWebsiteData[i].status.indexOf("302") > -1) {
-					dataString += ' <span class="label label-warning">' + loadedWebsiteData[i].status + '</span> ';
-				} else {
-					dataString += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
-				}
-				
-				dataString += '</td><td> <span class="label label-primary" id="label-action" onclick="moreAbout(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
-			}
-			$('#table-websites-down').html(dataString);
-		},
-		error: function (error) {
 			$('#table-websites-down').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
 		}
 	});
