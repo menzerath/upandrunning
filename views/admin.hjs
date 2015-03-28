@@ -27,7 +27,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" id="container-admin">
 		<div class="alert alert-dismissible alert-success" id="success-box">
 			<button type="button" class="close" onclick="hideSuccessBox()">×</button>
 			<h4>Success!</h4>
@@ -186,7 +186,7 @@
 	</div>
 	<footer class="footer">
 		<div class="container">
-			<p class="text-footer">UpAndRunning v{{ version.app }} / Node.js {{ version.node }}</p>
+			<p class="text-footer">Powered by <b>UpAndRunning v{{ version.app }}</b> and <b>Node.js {{ version.node }}</b></p>
 		</div>
 	</footer>
 
