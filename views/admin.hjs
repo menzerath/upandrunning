@@ -21,7 +21,7 @@
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a onclick="loadWebsites()" style="cursor:pointer">Reload</a></li>
+					<li><a onclick="reloadWebsites()" style="cursor:pointer">Reload</a></li>
 					<li><a onclick="checkNow()" style="cursor:pointer">Check Now</a></li>
 					<li><a onclick="logout()" style="cursor:pointer">Logout</a></li>
 				</ul>

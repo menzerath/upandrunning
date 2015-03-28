@@ -110,6 +110,15 @@ function loadWebsites() {
 	});
 }
 
+function reloadWebsites() {
+	$('.bottom-right').notify({
+		type: 'success',
+		message: { text: "Reloading websites..." },
+		fadeOut: { enabled: true, delay: 3000 }
+	}).show();
+	loadWebsites();
+}
+
 function addWebsite() {
 	var name = $('#input-add-name').val();
 	var protocol = $('#input-add-protocol').val();
@@ -276,6 +285,12 @@ function deleteWebsite(id) {
 			type: "GET",
 			success: function () {
 				loadWebsites();
+
+				$('.bottom-right').notify({
+					type: 'success',
+					message: { text: "Website successfully deleted." },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			},
 			error: function (error) {
 				$('.bottom-right').notify({
@@ -369,12 +384,12 @@ function checkNow() {
 		success: function () {
 			$('.bottom-right').notify({
 				type: 'success',
-				message: { text: "Check triggered. Will reload websites in a second." },
+				message: { text: "Check triggered. Will reload websites in three seconds." },
 				fadeOut: { enabled: true, delay: 3000 }
 			}).show();
 			setTimeout(function () {
 				loadWebsites();
-			}, 1000);
+			}, 3000);
 			setTimeout(function () {
 				allowCheck = true;
 			}, 10000);
