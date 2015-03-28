@@ -2,22 +2,6 @@ var loadedWebsiteData;
 var editId;
 var allowCheck = true;
 
-function showSuccessBox() {
-	$('#success-box').fadeIn(200);
-}
-
-function hideSuccessBox() {
-	$('#success-box').fadeOut(200);
-}
-
-function showErrorBox() {
-	$('#error-box').fadeIn(200);
-}
-
-function hideErrorBox() {
-	$('#error-box').fadeOut(200);
-}
-
 $(document).ready(function () {
 	$('#input-add-name').keypress(function (event) {
 		if (event.keyCode == 13) {
@@ -66,8 +50,11 @@ function logout() {
 			location.reload();
 		},
 		error: function (error) {
-			$('#error-text').html(JSON.parse(error.responseText).message);
-			showErrorBox();
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: { text: JSON.parse(error.responseText).message },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 		}
 	});
 }
@@ -137,15 +124,27 @@ function addWebsite() {
 				$('#input-add-protocol').val('https');
 				$('#input-add-url').val('');
 				loadWebsites();
+
+				$('.bottom-right').notify({
+					type: 'success',
+					message: { text: "Website successfully added." },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			},
 			error: function (error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			}
 		});
 	} else {
-		$('#error-text').html("Please fill in all fields to add a new website.");
-		showErrorBox();
+		$('.bottom-right').notify({
+			type: 'danger',
+			message: { text: "Please fill in all fields to add a new website." },
+			fadeOut: { enabled: true, delay: 3000 }
+		}).show();
 	}
 }
 
@@ -157,8 +156,11 @@ function enableWebsite(id) {
 			loadWebsites();
 		},
 		error: function (error) {
-			$('#error-text').html(JSON.parse(error.responseText).message);
-			showErrorBox();
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: { text: JSON.parse(error.responseText).message },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 		}
 	});
 }
@@ -171,8 +173,11 @@ function disableWebsite(id) {
 			loadWebsites();
 		},
 		error: function (error) {
-			$('#error-text').html(JSON.parse(error.responseText).message);
-			showErrorBox();
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: { text: JSON.parse(error.responseText).message },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 		}
 	});
 }
@@ -185,8 +190,11 @@ function visibleWebsite(id) {
 			loadWebsites();
 		},
 		error: function (error) {
-			$('#error-text').html(JSON.parse(error.responseText).message);
-			showErrorBox();
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: { text: JSON.parse(error.responseText).message },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 		}
 	});
 }
@@ -199,8 +207,11 @@ function invisibleWebsite(id) {
 			loadWebsites();
 		},
 		error: function (error) {
-			$('#error-text').html(JSON.parse(error.responseText).message);
-			showErrorBox();
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: { text: JSON.parse(error.responseText).message },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 		}
 	});
 }
@@ -230,15 +241,27 @@ function saveWebsite() {
 			success: function () {
 				cancleSaveWebsite();
 				loadWebsites();
+
+				$('.bottom-right').notify({
+					type: 'success',
+					message: { text: "Website successfully edited." },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			},
 			error: function (error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			}
 		});
 	} else {
-		$('#error-text').html("Please fill in all fields to save this edited website.");
-		showErrorBox();
+		$('.bottom-right').notify({
+			type: 'danger',
+			message: { text: "Please fill in all fields to save this edited website." },
+			fadeOut: { enabled: true, delay: 3000 }
+		}).show();
 	}
 }
 
@@ -255,8 +278,11 @@ function deleteWebsite(id) {
 				loadWebsites();
 			},
 			error: function (error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			}
 		});
 	}
@@ -271,17 +297,27 @@ function changePassword() {
 			type: "GET",
 			success: function () {
 				$('#input-new-password').val('');
-				$('#success-text').html("Password successfully changed.");
-				showSuccessBox();
+
+				$('.bottom-right').notify({
+					type: 'success',
+					message: { text: "Password successfully changed." },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			},
 			error: function (error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			}
 		});
 	} else {
-		$('#error-text').html("Please enter a valid password to change your password.");
-		showErrorBox();
+		$('.bottom-right').notify({
+			type: 'danger',
+			message: { text: "Please enter a valid password to change your password." },
+			fadeOut: { enabled: true, delay: 3000 }
+		}).show();
 	}
 }
 
@@ -293,25 +329,36 @@ function changeInterval() {
 			url: "/api/admin/settings/interval/" + newInterval,
 			type: "GET",
 			success: function () {
-				$('#input-new-interval').val(newInterval);
-				$('#success-text').html("Interval successfully changed.");
-				showSuccessBox();
+				$('.bottom-right').notify({
+					type: 'success',
+					message: { text: "Interval successfully changed." },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			},
 			error: function (error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			}
 		});
 	} else {
-		$('#error-text').html("Please enter a valid interval (numbers between 1 and 60) to change it.");
-		showErrorBox();
+		$('.bottom-right').notify({
+			type: 'danger',
+			message: { text: "Please enter a valid interval (numbers between 1 and 60) to change it." },
+			fadeOut: { enabled: true, delay: 3000 }
+		}).show();
 	}
 }
 
 function checkNow() {
 	if (!allowCheck) {
-		$('#error-text').html("Please wait a few seconds before trying this operation again.");
-		showErrorBox();
+		$('.bottom-right').notify({
+			type: 'danger',
+			message: { text: "Please wait a few seconds before trying this operation again." },
+			fadeOut: { enabled: true, delay: 3000 }
+		}).show();
 		return;
 	}
 
@@ -320,6 +367,11 @@ function checkNow() {
 		url: "/api/admin/check",
 		type: "GET",
 		success: function () {
+			$('.bottom-right').notify({
+				type: 'success',
+				message: { text: "Check triggered. Will reload websites in a second." },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 			setTimeout(function () {
 				loadWebsites();
 			}, 1000);
@@ -328,8 +380,11 @@ function checkNow() {
 			}, 10000);
 		},
 		error: function (error) {
-			$('#error-text').html(JSON.parse(error.responseText).message);
-			showErrorBox();
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: { text: JSON.parse(error.responseText).message },
+				fadeOut: { enabled: true, delay: 3000 }
+			}).show();
 			allowCheck = true;
 		}
 	});

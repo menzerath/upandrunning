@@ -1,11 +1,3 @@
-function showErrorBox() {
-	$('#error-box').fadeIn(200);
-}
-
-function hideErrorBox() {
-	$('#error-box').fadeOut(200);
-}
-
 $(document).ready(function () {
 	$('#input-password').keypress(function (event) {
 		if (event.keyCode == 13) {
@@ -26,8 +18,11 @@ function login() {
 				location.reload();
 			},
 			error: function (error) {
-				$('#error-text').html(JSON.parse(error.responseText).message);
-				showErrorBox();
+				$('.bottom-right').notify({
+					type: 'danger',
+					message: { text: JSON.parse(error.responseText).message },
+					fadeOut: { enabled: true, delay: 3000 }
+				}).show();
 			}
 		});
 	}
