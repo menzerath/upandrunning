@@ -133,6 +133,16 @@ Notice: You have to login before you are able to use those APIs.
 /api/admin/settings/password/:password
 ```
 
+#### Change Check-Interval
+```
+/api/admin/settings/interval/:interval
+```
+
+#### Trigger a Check
+```
+/api/admin/check
+```
+
 #### Login
 ```
 /api/admin/login/:password
