@@ -22,6 +22,7 @@
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a onclick="loadWebsites()" style="cursor:pointer">Reload</a></li>
+					<li><a onclick="checkNow()" style="cursor:pointer">Check Now</a></li>
 					<li><a onclick="logout()" style="cursor:pointer">Logout</a></li>
 				</ul>
 			</div>
@@ -41,7 +42,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-lg-10">
+			<div class="col-lg-12">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="well form-horizontal">
@@ -103,7 +104,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-9">
 						<div class="well form-horizontal">
 							<legend>Add Website</legend>
 							<fieldset>
@@ -130,54 +131,43 @@
 							</fieldset>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="well form-horizontal">
-							<fieldset>
-								<legend>Password</legend>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<input type="password" class="form-control" id="input-new-password" placeholder="New Password">
-									</div>
+					<div class="col-lg-3">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="well form-horizontal">
+									<fieldset>
+										<legend>Password</legend>
+										<div class="form-group">
+											<div class="col-lg-12">
+												<input type="password" class="form-control" id="input-new-password" placeholder="New Password">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-12">
+												<button type="button" class="btn btn-primary" id="button-change-password" onclick="changePassword()">Change</button>
+											</div>
+										</div>
+									</fieldset>
 								</div>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<button type="button" class="btn btn-primary" id="button-change-password" onclick="changePassword()">Change</button>
-									</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="well form-horizontal">
+									<fieldset>
+										<legend>Interval</legend>
+										<div class="form-group">
+											<div class="col-lg-8">
+												<input type="number" class="form-control" id="input-new-interval" min="1" max="60" placeholder="5" value="{{ interval }}">
+											</div>
+											<label class="col-lg-4 control-label">Minutes</label>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-12">
+												<button type="button" class="btn btn-primary" id="button-change-interval" onclick="changeInterval()">Change</button>
+											</div>
+										</div>
+									</fieldset>
 								</div>
-							</fieldset>
-						</div>
-					</div>
-					<div class="col-lg-12">
-						<div class="well form-horizontal">
-							<fieldset>
-								<legend>Interval</legend>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<input type="number" class="form-control" id="input-new-interval" min="1" max="60" placeholder="5" value="{{ interval }}">
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<button type="button" class="btn btn-primary" id="button-change-interval" onclick="changeInterval()">Change</button>
-									</div>
-								</div>
-							</fieldset>
-						</div>
-					</div>
-					<div class="col-lg-12">
-						<div class="well form-horizontal">
-							<fieldset>
-								<legend>Actions</legend>
-								<div class="form-group">
-									<div class="col-lg-12">
-										<button type="button" class="btn btn-primary" id="button-check-now" onclick="checkNow()">Check Now</button>
-									</div>
-								</div>
-							</fieldset>
+							</div>
 						</div>
 					</div>
 				</div>

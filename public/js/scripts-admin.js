@@ -1,5 +1,6 @@
 var loadedWebsiteData;
 var editId;
+var allowCheck = true;
 
 function showSuccessBox() {
 	$('#success-box').fadeIn(200);
@@ -308,21 +309,28 @@ function changeInterval() {
 }
 
 function checkNow() {
-	$('#button-check-now').text('Please wait...');
-	$('#button-check-now').prop('disabled', true);
+	if (!allowCheck) {
+		$('#error-text').html("Please wait a few seconds before trying this operation again.");
+		showErrorBox();
+		return;
+	}
+
+	allowCheck = false;
 	$.ajax({
 		url: "/api/admin/check",
 		type: "GET",
 		success: function () {
 			setTimeout(function () {
 				loadWebsites();
-				$('#button-check-now').text('Check Now');
-				$('#button-check-now').prop('disabled', false);
 			}, 1000);
+			setTimeout(function () {
+				allowCheck = true;
+			}, 10000);
 		},
 		error: function (error) {
 			$('#error-text').html(JSON.parse(error.responseText).message);
 			showErrorBox();
+			allowCheck = true;
 		}
 	});
 }
