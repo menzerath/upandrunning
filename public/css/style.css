@@ -29,10 +29,6 @@ body > .container {
 	margin-bottom: 0;
 }
 
-#what-is-this {
-	display: none;
-}
-
 #bc-feature, #bc-site {
 	display: none;
 }

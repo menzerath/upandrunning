@@ -1,11 +1,3 @@
-function showInformationBox() {
-	$('#what-is-this').fadeIn(500);
-}
-
-function hideInformationBox() {
-	$('#what-is-this').fadeOut(500);
-}
-
 $(document).ready(function () {
 	$('#input-information').keypress(function (event) {
 		if (event.keyCode == 13) {

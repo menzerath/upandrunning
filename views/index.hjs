@@ -20,9 +20,6 @@
 				</button>
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav navbar-left">
-					<li><a onclick="showInformationBox()" style="cursor:pointer">What is this?</a></li>
-				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/api/" target="_blank">API</a></li>
 				</ul>
@@ -38,14 +35,6 @@
 					<li id="bc-site" class="active"></li>
 				</ul>
 			</div>
-		</div>
-		<div class="jumbotron" id="what-is-this">
-			<h1>Welcome to UpAndRunning!</h1>
-			<p>UpAndRunning is a lightweight Node.JS application which monitors all of your websites for availability and offers a simple JSON-API.</p>
-			<p>
-				<a href="https://github.com/MarvinMenzerath/UpAndRunning" target="_blank" class="btn btn-primary btn-lg">Learn more</a>
-				<a class="btn btn-default btn-lg" onclick="hideInformationBox()">OK, got it</a>
-			</p>
 		</div>
 		<div class="row">
 			<div class="col-lg-6" id="col-form-information">
