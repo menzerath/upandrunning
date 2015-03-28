@@ -43,6 +43,11 @@
 		</div>
 		<div class="notifications bottom-right"></div>
 	</div>
+	<footer class="footer">
+		<div class="container">
+			<p class="text-footer">Powered by <b>UpAndRunning</b> and <b>Node.js</b></p>
+		</div>
+	</footer>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
