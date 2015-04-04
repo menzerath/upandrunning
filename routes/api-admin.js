@@ -141,7 +141,7 @@ router.get('/settings/password/:password', function (req, res) {
 	if (!req.session.loggedin) { res.status(401).send({ requestSuccess: false, message: 'Unauthorized' }); return; }
 	new admin().changePassword(req.params.password, function (status, error) {
 		if (status === false) {
-			logger.error("Unable to change password: " + err.code);
+			logger.error("Unable to change password: " + error);
 			res.status(400).send({ requestSuccess: false, message: 'Unable to process your request: ' + error });
 		} else {
 			res.send({ requestSuccess: true });

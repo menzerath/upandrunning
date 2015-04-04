@@ -73,7 +73,7 @@ function loadWebsites() {
 			loadedWebsiteData = data.websites;
 			var dataString = '';
 			for (var i = 0; i < loadedWebsiteData.length; i++) {
-				dataString += '<tr><td>' + loadedWebsiteData[i].id + '</td><td>' + loadedWebsiteData[i].name + '</td><td>';
+				dataString += '<tr><td>' + (i + 1) + '</td><td>' + loadedWebsiteData[i].name + '</td><td>';
 				
 				if (loadedWebsiteData[i].enabled) {
 					dataString += ' <span class="label label-success" id="label-action" onclick="disableWebsite(' + loadedWebsiteData[i].id + ')">Enabled</span> </td><td>';
