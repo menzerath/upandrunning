@@ -29,15 +29,21 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 		process.exit(1);
 	} else {
 		logger.info("Settings-Database successfully prepared");
-		
+
 		db.query("SELECT value FROM settings where name = 'title';", function (err, rows) {
-			if (err) { logger.error("Unable to check for title: " + err.code); return; }
-			
+			if (err) {
+				logger.error("Unable to check for title: " + err.code);
+				return;
+			}
+
 			if (typeof rows[0] != 'undefined') {
 				global.TITLE = rows[0].value;
 			} else {
 				db.query("INSERT INTO settings (name, value) VALUES ('title', 'UpAndRunning');", function (err, rows) {
-					if (err) { logger.error("Unable to add check-interval: " + err.code); return; }
+					if (err) {
+						logger.error("Unable to add check-interval: " + err.code);
+						return;
+					}
 					global.TITLE = "UpAndRunning";
 					logger.info("Set title to default-value of \"UpAndRunning\"");
 				});
@@ -53,16 +59,22 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 				});
 			}
 		});
-		
+
 		db.query("SELECT value FROM settings where name = 'interval';", function (err, rows) {
-			if (err) { logger.error("Unable to check for interval: " + err.code); return; }
-			
+			if (err) {
+				logger.error("Unable to check for interval: " + err.code);
+				return;
+			}
+
 			if (typeof rows[0] != 'undefined') {
 				global.INTERVAL = rows[0].value;
 				logger.info("Set interval to " + global.INTERVAL + " minutes");
 			} else {
 				db.query("INSERT INTO settings (name, value) VALUES ('interval', 5);", function (err, rows) {
-					if (err) { logger.error("Unable to add check-interval: " + err.code); return; }
+					if (err) {
+						logger.error("Unable to add check-interval: " + err.code);
+						return;
+					}
 					global.INTERVAL = 5;
 					logger.info("Set interval to default-value of 5 minutes");
 				});
@@ -75,10 +87,10 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 
-app.use(session({ secret: 'mySecret', resave: false, saveUninitialized: false }));
+app.use(session({secret: 'mySecret', resave: false, saveUninitialized: false}));
 app.use(require('morgan')('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // add our custom header
@@ -102,7 +114,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-	res.status(err.status || 500).render('error', { code: err.status, message: err.message });
+	res.status(err.status || 500).render('error', {code: err.status, message: err.message});
 });
 
 // check all the websites now (after a 3 second init-delay)
@@ -134,7 +146,7 @@ function checkAllWebsites() {
 			logger.error("Unable to search for websites in my database: " + err.code);
 		} else {
 			logger.info("Checking " + rows.length + " active websites...");
-			
+
 			for (var i in rows) {
 				if (rows.hasOwnProperty(i)) {
 					new website(rows[i].id, rows[i].protocol, rows[i].url).runCheck();

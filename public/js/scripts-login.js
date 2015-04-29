@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 function login() {
 	var password = $('#input-password').val();
-	
+
 	if (password.trim()) {
 		$.ajax({
 			url: "/api/admin/login/" + password,
@@ -20,8 +20,8 @@ function login() {
 			error: function (error) {
 				$('.bottom-right').notify({
 					type: 'danger',
-					message: { text: JSON.parse(error.responseText).message },
-					fadeOut: { enabled: true, delay: 3000 }
+					message: {text: JSON.parse(error.responseText).message},
+					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			}
 		});

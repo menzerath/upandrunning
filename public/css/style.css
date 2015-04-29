@@ -16,10 +16,10 @@ body > .container {
 	width: 100%;
 }
 
-	.footer > .container {
-		padding-right: 15px;
-		padding-left: 15px;
-	}
+.footer > .container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
 
 .container .text-footer {
 	margin: 20px 0 0 0;
@@ -60,27 +60,27 @@ body > .container {
 	z-index: 9999;
 }
 
-	.notifications.top-right {
-		right: 10px;
-		top: 25px;
-	}
+.notifications.top-right {
+	right: 10px;
+	top: 25px;
+}
 
-	.notifications.top-left {
-		left: 10px;
-		top: 25px;
-	}
+.notifications.top-left {
+	left: 10px;
+	top: 25px;
+}
 
-	.notifications.bottom-left {
-		left: 10px;
-		bottom: 25px;
-	}
+.notifications.bottom-left {
+	left: 10px;
+	bottom: 25px;
+}
 
-	.notifications.bottom-right {
-		right: 10px;
-		bottom: 25px;
-	}
+.notifications.bottom-right {
+	right: 10px;
+	bottom: 25px;
+}
 
-	.notifications > div {
-		position: relative;
-		margin: 5px 0px;
-	}
+.notifications > div {
+	position: relative;
+	margin: 5px 0;
+}
