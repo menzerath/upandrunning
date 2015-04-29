@@ -12,15 +12,15 @@
 		"start": "node ./bin/www"
 	},
 	"dependencies": {
-		"body-parser": "~1.12.2",
+		"body-parser": "~1.12.3",
 		"config": "~1.12.0",
 		"express": "~4.12.3",
-		"express-session": "~1.10.4",
+		"express-session": "~1.11.1",
 		"hjs": "~0.0.6",
 		"morgan": "~1.5.2",
-		"mysql": "~2.6.1",
-		"request": "~2.54.0",
+		"mysql": "~2.6.2",
+		"request": "~2.55.0",
 		"sanitizer": "~0.1.2",
-		"winston": "~0.9.0"
+		"winston": "~1.0.0"
 	}
 }
