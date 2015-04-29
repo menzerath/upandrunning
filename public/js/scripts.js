@@ -1,11 +1,14 @@
 $(document).ready(function () {
-	$('#input-information').keypress(function (event) {
+	var infoField = $('#input-information');
+	var isupField = $('#input-isup');
+
+	infoField.keypress(function (event) {
 		if (event.keyCode == 13) {
 			showInformation();
 		}
 	});
 
-	$('#input-isup').keypress(function (event) {
+	isupField.keypress(function (event) {
 		if (event.keyCode == 13) {
 			showIsUp();
 		}
@@ -13,14 +16,14 @@ $(document).ready(function () {
 
 	if (location.pathname.split("/")[1] == "status") {
 		if (location.pathname.split("/")[2] !== undefined && location.pathname.split("/")[2] !== "") {
-			$('#input-information').val(location.pathname.split("/")[2]);
+			infoField.val(location.pathname.split("/")[2]);
 			showInformation();
 		} else {
 			history.replaceState('data', '', '/');
 		}
 	} else if (location.pathname.split("/")[1] == "isup") {
 		if (location.pathname.split("/")[2] !== undefined && location.pathname.split("/")[2] !== "") {
-			$('#input-isup').val(location.pathname.split("/")[2]);
+			isupField.val(location.pathname.split("/")[2]);
 			showIsUp();
 		} else {
 			history.replaceState('data', '', '/');

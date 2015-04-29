@@ -1,10 +1,11 @@
 $(document).ready(function () {
-	$('#input-password').keypress(function (event) {
+	var pwField = $('#input-password');
+	pwField.keypress(function (event) {
 		if (event.keyCode == 13) {
 			login();
 		}
 	});
-	$('#input-password').focus();
+	pwField.focus();
 });
 
 function login() {
