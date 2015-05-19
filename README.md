@@ -1,5 +1,5 @@
 # UpAndRunning
-UpAndRunning is a lightweight Node.JS application which monitors all of your websites for availability and offers a simple JSON-API.
+UpAndRunning is a lightweight Node.js application which monitors all of your websites for availability and offers a simple JSON-API.
 
 ## Installation
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/MarvinMenzerath/UpAndRunning)
@@ -42,13 +42,6 @@ Notice: Everyone is able to access those APIs.
 		"time": "2014-12-31T20:15:00.000Z"
 	}
 }
-```
-
-#### IsUp
-```
-/api/isup/website.com
-
-Yes / No
 ```
 
 #### List
@@ -95,67 +88,80 @@ Notice: You have to login before you are able to use those APIs.
 
 #### Add a Website
 ```
-/api/admin/website/add/:name/:protocol/:url
+/api/admin/website/add
+POST-parameters: name, protocol, url
 ```
 
 #### Enable a Website
 ```
-/api/admin/website/enable/:id
+/api/admin/website/enable
+POST-parameters: id
 ```
 
 #### Disable a Website
 ```
-/api/admin/website/disable/:id
+/api/admin/website/disable
+POST-parameters: id
 ```
 
 #### Set a Website visible
 ```
-/api/admin/website/visible/:id
+/api/admin/website/visible
+POST-parameters: id
 ```
 
 #### Set a Website invisible
 ```
-/api/admin/website/invisible/:id
+/api/admin/website/invisible
+POST-parameters: id
 ```
 
 #### Edit a Website
 ```
-/api/admin/website/edit/:id/:name/:protocol/:url
+/api/admin/website/edit
+POST-parameters: id, name, protocol, url
 ```
 
 #### Delete a Website
 ```
-/api/admin/website/delete/:id
+/api/admin/website/delete
+POST-parameters: id
 ```
 
 #### Change Application-Title
 ```
-/api/admin/settings/title/:title
+/api/admin/settings/title
+POST-parameters: title
 ```
 
 #### Change Admin-Password
 ```
-/api/admin/settings/password/:password
+/api/admin/settings/password
+POST-parameters: password
 ```
 
 #### Change Check-Interval
 ```
-/api/admin/settings/interval/:interval
+/api/admin/settings/interval
+POST-parameters: interval
 ```
 
 #### Trigger a Check
 ```
 /api/admin/check
+POST-parameters: - none -
 ```
 
 #### Login
 ```
-/api/admin/login/:password
+/api/admin/login
+POST-parameters: password
 ```
 
 #### Logout
 ```
 /api/admin/logout
+POST-parameters: - none -
 ```
 
 ## Screenshots
