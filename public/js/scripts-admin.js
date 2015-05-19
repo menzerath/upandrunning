@@ -314,12 +314,13 @@ function changeTitle() {
 
 	if (newTitle.trim()) {
 		$.ajax({
-			url: "/api/admin/settings/title/" + newTitle,
-			type: "GET",
+			url: "/api/admin/settings/title",
+			type: "POST",
+			data: {"title": newTitle},
 			success: function() {
 				$('.bottom-right').notify({
 					type: 'success',
-					message: {text: "Title successfully changed.\nReload this page to see your changes."},
+					message: {text: "Title successfully changed.Reload this page to see your changes."},
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
@@ -345,8 +346,9 @@ function changePassword() {
 
 	if (newPassword.trim()) {
 		$.ajax({
-			url: "/api/admin/settings/password/" + newPassword,
-			type: "GET",
+			url: "/api/admin/settings/password",
+			type: "POST",
+			data: {"password": newPassword},
 			success: function() {
 				$('#input-new-password').val('');
 
@@ -378,8 +380,9 @@ function changeInterval() {
 
 	if (newInterval.trim() && !(isNaN(newInterval) || newInterval < 1 || newInterval > 60)) {
 		$.ajax({
-			url: "/api/admin/settings/interval/" + newInterval,
-			type: "GET",
+			url: "/api/admin/settings/interval",
+			type: "POST",
+			data: {"interval": newInterval},
 			success: function() {
 				$('.bottom-right').notify({
 					type: 'success',

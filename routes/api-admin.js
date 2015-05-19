@@ -152,12 +152,12 @@ router.get('/websites/delete/:id', function(req, res) {
 	});
 });
 
-router.get('/settings/title/:title', function(req, res) {
+router.post('/settings/title', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	var newTitle = sanitizer.escape(req.params.title);
+	var newTitle = sanitizer.escape(req.body.title);
 	db.query("UPDATE settings SET value = ? WHERE name = 'title';", [newTitle], function(err) {
 		if (err) {
 			logger.error("Unable to change title: " + err.code);
@@ -169,12 +169,12 @@ router.get('/settings/title/:title', function(req, res) {
 	});
 });
 
-router.get('/settings/password/:password', function(req, res) {
+router.post('/settings/password', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	new admin().changePassword(req.params.password, function(status, error) {
+	new admin().changePassword(req.body.password, function(status, error) {
 		if (status === false) {
 			logger.error("Unable to change password: " + error);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + error});
@@ -184,16 +184,16 @@ router.get('/settings/password/:password', function(req, res) {
 	});
 });
 
-router.get('/settings/interval/:interval', function(req, res) {
+router.post('/settings/interval', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	var newInterval = req.params.interval;
+	var newInterval = req.body.interval;
 	if (isNaN(newInterval) || newInterval < 1 || newInterval > 60) {
 		res.status(400).send({
 			requestSuccess: false,
-			message: 'Unable to process your request: Interval has to be a number ranging between 1 and 60 minutes'
+			message: 'Unable to process your request: Interval has to be a number ranging between 1 and 60 minutes.'
 		});
 		return;
 	}
