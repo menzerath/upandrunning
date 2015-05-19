@@ -51,9 +51,9 @@ $(document).ready(function() {
 function logout() {
 	$.ajax({
 		url: "/api/admin/logout",
-		type: "GET",
+		type: "POST",
 		success: function() {
-			location.reload();
+			window.location.replace("/");
 		},
 		error: function(error) {
 			$('.bottom-right').notify({

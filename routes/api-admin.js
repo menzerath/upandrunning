@@ -226,7 +226,7 @@ router.post('/login', function(req, res) {
 	});
 });
 
-router.get('/logout', function(req, res) {
+router.post('/logout', function(req, res) {
 	req.session.destroy(function(err) {
 		if (err) {
 			logger.error("Unable to logout: " + err.code);
