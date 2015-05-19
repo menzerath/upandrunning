@@ -2,44 +2,44 @@ var loadedWebsiteData;
 var editId;
 var allowCheck = true;
 
-$(document).ready(function () {
-	$('#input-add-name').keypress(function (event) {
+$(document).ready(function() {
+	$('#input-add-name').keypress(function(event) {
 		if (event.keyCode == 13) {
 			addWebsite();
 		}
 	});
 
-	$('#input-add-url').keypress(function (event) {
+	$('#input-add-url').keypress(function(event) {
 		if (event.keyCode == 13) {
 			addWebsite();
 		}
 	});
 
-	$('#input-edit-name').keypress(function (event) {
+	$('#input-edit-name').keypress(function(event) {
 		if (event.keyCode == 13) {
 			saveWebsite();
 		}
 	});
 
-	$('#input-edit-url').keypress(function (event) {
+	$('#input-edit-url').keypress(function(event) {
 		if (event.keyCode == 13) {
 			saveWebsite();
 		}
 	});
 
-	$('#input-new-title').keypress(function (event) {
+	$('#input-new-title').keypress(function(event) {
 		if (event.keyCode == 13) {
 			changeTitle();
 		}
 	});
 
-	$('#input-new-password').keypress(function (event) {
+	$('#input-new-password').keypress(function(event) {
 		if (event.keyCode == 13) {
 			changePassword();
 		}
 	});
 
-	$('#input-new-interval').keypress(function (event) {
+	$('#input-new-interval').keypress(function(event) {
 		if (event.keyCode == 13) {
 			changeInterval();
 		}
@@ -52,10 +52,10 @@ function logout() {
 	$.ajax({
 		url: "/api/admin/logout",
 		type: "GET",
-		success: function () {
+		success: function() {
 			location.reload();
 		},
-		error: function (error) {
+		error: function(error) {
 			$('.bottom-right').notify({
 				type: 'danger',
 				message: {text: JSON.parse(error.responseText).message},
@@ -69,7 +69,7 @@ function loadWebsites() {
 	$.ajax({
 		url: "/api/admin/websites",
 		type: "GET",
-		success: function (data) {
+		success: function(data) {
 			loadedWebsiteData = data.websites;
 			var dataString = '';
 			for (var i = 0; i < loadedWebsiteData.length; i++) {
@@ -110,7 +110,7 @@ function loadWebsites() {
 			}
 			$('#table-websites').html(dataString);
 		},
-		error: function (error) {
+		error: function(error) {
 			$('#table-websites').html('<tr><td colspan="10">An error occured. Please authenticate again or add a website.</td></tr>');
 		}
 	});
@@ -134,7 +134,7 @@ function addWebsite() {
 		$.ajax({
 			url: "/api/admin/websites/add/" + name + "/" + protocol + "/" + url,
 			type: "GET",
-			success: function () {
+			success: function() {
 				$('#input-add-name').val('');
 				$('#input-add-protocol').val('https');
 				$('#input-add-url').val('');
@@ -146,7 +146,7 @@ function addWebsite() {
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},
@@ -167,10 +167,10 @@ function enableWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/enable/" + id,
 		type: "GET",
-		success: function () {
+		success: function() {
 			loadWebsites();
 		},
-		error: function (error) {
+		error: function(error) {
 			$('.bottom-right').notify({
 				type: 'danger',
 				message: {text: JSON.parse(error.responseText).message},
@@ -184,10 +184,10 @@ function disableWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/disable/" + id,
 		type: "GET",
-		success: function () {
+		success: function() {
 			loadWebsites();
 		},
-		error: function (error) {
+		error: function(error) {
 			$('.bottom-right').notify({
 				type: 'danger',
 				message: {text: JSON.parse(error.responseText).message},
@@ -201,10 +201,10 @@ function visibleWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/visible/" + id,
 		type: "GET",
-		success: function () {
+		success: function() {
 			loadWebsites();
 		},
-		error: function (error) {
+		error: function(error) {
 			$('.bottom-right').notify({
 				type: 'danger',
 				message: {text: JSON.parse(error.responseText).message},
@@ -218,10 +218,10 @@ function invisibleWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/invisible/" + id,
 		type: "GET",
-		success: function () {
+		success: function() {
 			loadWebsites();
 		},
-		error: function (error) {
+		error: function(error) {
 			$('.bottom-right').notify({
 				type: 'danger',
 				message: {text: JSON.parse(error.responseText).message},
@@ -253,7 +253,7 @@ function saveWebsite() {
 		$.ajax({
 			url: "/api/admin/websites/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
 			type: "GET",
-			success: function () {
+			success: function() {
 				cancleSaveWebsite();
 				loadWebsites();
 
@@ -263,7 +263,7 @@ function saveWebsite() {
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},
@@ -289,7 +289,7 @@ function deleteWebsite(id) {
 		$.ajax({
 			url: "/api/admin/websites/delete/" + id,
 			type: "GET",
-			success: function () {
+			success: function() {
 				loadWebsites();
 
 				$('.bottom-right').notify({
@@ -298,7 +298,7 @@ function deleteWebsite(id) {
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},
@@ -316,14 +316,14 @@ function changeTitle() {
 		$.ajax({
 			url: "/api/admin/settings/title/" + newTitle,
 			type: "GET",
-			success: function () {
+			success: function() {
 				$('.bottom-right').notify({
 					type: 'success',
 					message: {text: "Title successfully changed.\nReload this page to see your changes."},
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},
@@ -347,7 +347,7 @@ function changePassword() {
 		$.ajax({
 			url: "/api/admin/settings/password/" + newPassword,
 			type: "GET",
-			success: function () {
+			success: function() {
 				$('#input-new-password').val('');
 
 				$('.bottom-right').notify({
@@ -356,7 +356,7 @@ function changePassword() {
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},
@@ -380,14 +380,14 @@ function changeInterval() {
 		$.ajax({
 			url: "/api/admin/settings/interval/" + newInterval,
 			type: "GET",
-			success: function () {
+			success: function() {
 				$('.bottom-right').notify({
 					type: 'success',
 					message: {text: "Interval successfully changed."},
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},
@@ -418,20 +418,20 @@ function checkNow() {
 	$.ajax({
 		url: "/api/admin/check",
 		type: "GET",
-		success: function () {
+		success: function() {
 			$('.bottom-right').notify({
 				type: 'success',
 				message: {text: "Check triggered. Will reload websites in three seconds."},
 				fadeOut: {enabled: true, delay: 3000}
 			}).show();
-			setTimeout(function () {
+			setTimeout(function() {
 				loadWebsites();
 			}, 3000);
-			setTimeout(function () {
+			setTimeout(function() {
 				allowCheck = true;
 			}, 10000);
 		},
-		error: function (error) {
+		error: function(error) {
 			$('.bottom-right').notify({
 				type: 'danger',
 				message: {text: JSON.parse(error.responseText).message},

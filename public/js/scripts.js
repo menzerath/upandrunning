@@ -1,14 +1,14 @@
-$(document).ready(function () {
+$(document).ready(function() {
 	var infoField = $('#input-information');
 	var isupField = $('#input-isup');
 
-	infoField.keypress(function (event) {
+	infoField.keypress(function(event) {
 		if (event.keyCode == 13) {
 			showInformation();
 		}
 	});
 
-	isupField.keypress(function (event) {
+	isupField.keypress(function(event) {
 		if (event.keyCode == 13) {
 			showIsUp();
 		}
@@ -51,7 +51,7 @@ function showInformation() {
 	$.ajax({
 		url: "/api/status/" + website,
 		type: "GET",
-		success: function (data) {
+		success: function(data) {
 			var dataString = '<div class="well"><legend>Information about ' + website + '</legend>';
 			dataString += '<p>The website at <a href="' + data.websiteData.url + '">' + data.websiteData.url + '</a> is called <b>"' + data.websiteData.name + '"</b>, was checked <b>' + data.availability.total + ' times</b> and has an average availability of <b>' + data.availability.average + '</b>.</p>';
 
@@ -70,7 +70,7 @@ function showInformation() {
 			$('#col-form-information').html(dataString);
 			$('#bc-site').html('<a href="' + window.location.href + '">' + website + '</a>');
 		},
-		error: function (error) {
+		error: function(error) {
 			$('#col-form-information').html('<div class="well"><legend>Oops...</legend><p>Sorry, but I was unable to process your request.<br />Error: ' + JSON.parse(error.responseText).message + '</p><button class="btn btn-primary" onclick="resetInformation()">New Query</button></div>');
 		}
 	});
@@ -96,11 +96,11 @@ function showIsUp() {
 	$.ajax({
 		url: "/api/isup/" + website,
 		type: "GET",
-		success: function (data) {
+		success: function(data) {
 			$('#col-form-isup').html('<div class="well"><legend>Is ' + website + ' up?</legend><p>' + data + '</p><button class="btn btn-primary" onclick="resetIsUp()">New Query</button></div>');
 			$('#bc-site').html('<a href="' + window.location.href + '">' + website + '</a>');
 		},
-		error: function (error) {
+		error: function(error) {
 			$('#col-form-isup').html('<div class="well"><legend>Oops...</legend><p>Sorry, but I was unable to process your request.<br />Error: ' + error.responseText + '</p><button class="btn btn-primary" onclick="resetIsUp()">New Query</button></div>');
 		}
 	});
@@ -121,7 +121,7 @@ function loadWebsiteData() {
 	$.ajax({
 		url: "/api/websites",
 		type: "GET",
-		success: function (data) {
+		success: function(data) {
 			loadedWebsiteData = data.websites;
 			var dataStringUp = '';
 			var dataStringDown = '';
@@ -158,7 +158,7 @@ function loadWebsiteData() {
 			$('#table-websites-up').html(dataStringUp);
 			$('#table-websites-down').html(dataStringDown);
 		},
-		error: function (error) {
+		error: function(error) {
 			$('#table-websites-up').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
 			$('#table-websites-down').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
 		}

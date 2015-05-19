@@ -1,6 +1,6 @@
-$(document).ready(function () {
+$(document).ready(function() {
 	var pwField = $('#input-password');
-	pwField.keypress(function (event) {
+	pwField.keypress(function(event) {
 		if (event.keyCode == 13) {
 			login();
 		}
@@ -15,10 +15,10 @@ function login() {
 		$.ajax({
 			url: "/api/admin/login/" + password,
 			type: "GET",
-			success: function () {
+			success: function() {
 				location.reload();
 			},
-			error: function (error) {
+			error: function(error) {
 				$('.bottom-right').notify({
 					type: 'danger',
 					message: {text: JSON.parse(error.responseText).message},

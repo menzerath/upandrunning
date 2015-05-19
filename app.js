@@ -14,7 +14,7 @@ var app = express();
 logger.info("Welcome to UpAndRunning v" + require('./package.json').version + "!");
 
 // create database
-db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `enabled` int(1) NOT NULL DEFAULT '1', `visible` int(1) NOT NULL DEFAULT '1', `protocol` varchar(8) NOT NULL, `url` varchar(100) NOT NULL, `status` varchar(50) NOT NULL DEFAULT 'unknown', `time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `lastFailStatus` varchar(50) NOT NULL DEFAULT 'unknown', `lastFailTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `ups` int(11) NOT NULL DEFAULT '0', `downs` int(11) NOT NULL DEFAULT '0', `totalChecks` int(11) NOT NULL DEFAULT '0', `avgAvail` float NOT NULL DEFAULT '100', PRIMARY KEY (`id`), UNIQUE KEY `url` (`url`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function (err) {
+db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `enabled` int(1) NOT NULL DEFAULT '1', `visible` int(1) NOT NULL DEFAULT '1', `protocol` varchar(8) NOT NULL, `url` varchar(100) NOT NULL, `status` varchar(50) NOT NULL DEFAULT 'unknown', `time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `lastFailStatus` varchar(50) NOT NULL DEFAULT 'unknown', `lastFailTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `ups` int(11) NOT NULL DEFAULT '0', `downs` int(11) NOT NULL DEFAULT '0', `totalChecks` int(11) NOT NULL DEFAULT '0', `avgAvail` float NOT NULL DEFAULT '100', PRIMARY KEY (`id`), UNIQUE KEY `url` (`url`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function(err) {
 	if (err) {
 		logger.error(err);
 		process.exit(1);
@@ -23,14 +23,14 @@ db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCRE
 	}
 });
 
-db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `value` varchar(1024) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `name` (`name`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function (err) {
+db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `value` varchar(1024) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `name` (`name`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;", function(err) {
 	if (err) {
 		logger.error(err);
 		process.exit(1);
 	} else {
 		logger.info("Settings-Database successfully prepared");
 
-		db.query("SELECT value FROM settings where name = 'title';", function (err, rows) {
+		db.query("SELECT value FROM settings where name = 'title';", function(err, rows) {
 			if (err) {
 				logger.error("Unable to check for title: " + err.code);
 				return;
@@ -39,7 +39,7 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 			if (typeof rows[0] != 'undefined') {
 				global.TITLE = rows[0].value;
 			} else {
-				db.query("INSERT INTO settings (name, value) VALUES ('title', 'UpAndRunning');", function (err, rows) {
+				db.query("INSERT INTO settings (name, value) VALUES ('title', 'UpAndRunning');", function(err) {
 					if (err) {
 						logger.error("Unable to add check-interval: " + err.code);
 						return;
@@ -50,9 +50,9 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 			}
 		});
 
-		new admin().exists(function (status) {
+		new admin().exists(function(status) {
 			if (status === false) {
-				new admin().addAdmin("admin", function (status) {
+				new admin().addAdmin("admin", function(status) {
 					if (status === true) {
 						logger.info("Admin-User [Password: admin] created");
 					}
@@ -60,7 +60,7 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 			}
 		});
 
-		db.query("SELECT value FROM settings where name = 'interval';", function (err, rows) {
+		db.query("SELECT value FROM settings where name = 'interval';", function(err, rows) {
 			if (err) {
 				logger.error("Unable to check for interval: " + err.code);
 				return;
@@ -70,7 +70,7 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 				global.INTERVAL = rows[0].value;
 				logger.info("Set interval to " + global.INTERVAL + " minutes");
 			} else {
-				db.query("INSERT INTO settings (name, value) VALUES ('interval', 5);", function (err, rows) {
+				db.query("INSERT INTO settings (name, value) VALUES ('interval', 5);", function(err) {
 					if (err) {
 						logger.error("Unable to add check-interval: " + err.code);
 						return;
@@ -94,7 +94,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // add our custom header
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
 	res.setHeader("X-Powered-By", "UpAndRunning");
 	next();
 });
@@ -106,25 +106,25 @@ app.use('/api', require('./routes/api'));
 app.use('/api/admin', require('./routes/api-admin'));
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
 	var err = new Error('Not Found');
 	err.status = 404;
 	next(err);
 });
 
-// error handler
-app.use(function (err, req, res, next) {
+// error handler [note for IDE: param "next" has to stay!]
+app.use(function(err, req, res, next) {
 	res.status(err.status || 500).render('error', {code: err.status, message: err.message});
 });
 
 // check all the websites now (after a 3 second init-delay)
-setTimeout(function () {
+setTimeout(function() {
 	checkAllWebsites();
 	startTimer();
 }, 3 * 1000);
 
 // checks if the "check now"-button was clicked
-setInterval(function () {
+setInterval(function() {
 	if (global.CHECK_NOW) {
 		global.CHECK_NOW = false;
 		checkAllWebsites();
@@ -133,7 +133,7 @@ setInterval(function () {
 
 // checks all websites according to the interval
 function startTimer() {
-	setTimeout(function () {
+	setTimeout(function() {
 		checkAllWebsites();
 		startTimer();
 	}, global.INTERVAL * 60 * 1000);
@@ -141,7 +141,7 @@ function startTimer() {
 
 // "check all websites"-function
 function checkAllWebsites() {
-	db.query("SELECT id, protocol, url FROM website WHERE enabled = 1;", function (err, rows) {
+	db.query("SELECT id, protocol, url FROM website WHERE enabled = 1;", function(err, rows) {
 		if (err) {
 			logger.error("Unable to search for websites in my database: " + err.code);
 		} else {
