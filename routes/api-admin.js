@@ -122,12 +122,12 @@ router.get('/websites/invisible/:id', function(req, res) {
 	});
 });
 
-router.get('/websites/edit/:id/:name/:protocol/:url', function(req, res) {
+router.post('/websites/edit', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	db.query("UPDATE website SET name = ?, protocol = ?, url = ? WHERE id = ?;", [req.params.name, req.params.protocol, req.params.url, req.params.id], function(err) {
+	db.query("UPDATE website SET name = ?, protocol = ?, url = ? WHERE id = ?;", [req.body.name, req.body.protocol, req.body.url, req.body.id], function(err) {
 		if (err) {
 			logger.error("Unable to edit website: " + err.code);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});

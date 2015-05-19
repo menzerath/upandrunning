@@ -251,8 +251,9 @@ function saveWebsite() {
 
 	if (name.trim() && protocol.trim() && url.trim()) {
 		$.ajax({
-			url: "/api/admin/websites/edit/" + editId + "/" + name + "/" + protocol + "/" + url,
-			type: "GET",
+			url: "/api/admin/websites/edit",
+			type: "POST",
+			data: {"id": editId, "name": name, "protocol": protocol, "url": url},
 			success: function() {
 				cancleSaveWebsite();
 				loadWebsites();
