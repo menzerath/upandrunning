@@ -137,12 +137,12 @@ router.get('/websites/edit/:id/:name/:protocol/:url', function(req, res) {
 	});
 });
 
-router.get('/websites/delete/:id', function(req, res) {
+router.post('/websites/delete', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	db.query("DELETE FROM website WHERE id = ?;", [req.params.id], function(err) {
+	db.query("DELETE FROM website WHERE id = ?;", [req.body.id], function(err) {
 		if (err) {
 			logger.error("Unable to remove website: " + err.code);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});

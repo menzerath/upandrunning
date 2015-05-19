@@ -287,8 +287,9 @@ function cancleSaveWebsite() {
 function deleteWebsite(id) {
 	if (window.confirm("Are you sure?")) {
 		$.ajax({
-			url: "/api/admin/websites/delete/" + id,
-			type: "GET",
+			url: "/api/admin/websites/delete",
+			type: "POST",
+			data: {"id": id},
 			success: function() {
 				loadWebsites();
 
