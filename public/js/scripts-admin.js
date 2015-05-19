@@ -48,23 +48,6 @@ $(document).ready(function() {
 	loadWebsites();
 });
 
-function logout() {
-	$.ajax({
-		url: "/api/admin/logout",
-		type: "POST",
-		success: function() {
-			window.location.replace("/");
-		},
-		error: function(error) {
-			$('.bottom-right').notify({
-				type: 'danger',
-				message: {text: JSON.parse(error.responseText).message},
-				fadeOut: {enabled: true, delay: 3000}
-			}).show();
-		}
-	});
-}
-
 function loadWebsites() {
 	$.ajax({
 		url: "/api/admin/websites",
@@ -448,6 +431,23 @@ function checkNow() {
 				fadeOut: {enabled: true, delay: 3000}
 			}).show();
 			allowCheck = true;
+		}
+	});
+}
+
+function logout() {
+	$.ajax({
+		url: "/api/admin/logout",
+		type: "POST",
+		success: function() {
+			window.location.replace("/");
+		},
+		error: function(error) {
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: {text: JSON.parse(error.responseText).message},
+				fadeOut: {enabled: true, delay: 3000}
+			}).show();
 		}
 	});
 }
