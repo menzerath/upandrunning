@@ -1,16 +1,9 @@
 $(document).ready(function() {
 	var infoField = $('#input-information');
-	var isupField = $('#input-isup');
 
 	infoField.keypress(function(event) {
 		if (event.keyCode == 13) {
 			showInformation();
-		}
-	});
-
-	isupField.keypress(function(event) {
-		if (event.keyCode == 13) {
-			showIsUp();
 		}
 	});
 
@@ -21,20 +14,12 @@ $(document).ready(function() {
 		} else {
 			history.replaceState('data', '', '/');
 		}
-	} else if (location.pathname.split("/")[1] == "isup") {
-		if (location.pathname.split("/")[2] !== undefined && location.pathname.split("/")[2] !== "") {
-			isupField.val(location.pathname.split("/")[2]);
-			showIsUp();
-		} else {
-			history.replaceState('data', '', '/');
-		}
 	}
 
 	loadWebsiteData();
 });
 
 var informationOriginal = $('#col-form-information').clone();
-var isUpOriginal = $('#col-form-isup').clone();
 
 function showInformation() {
 	var website = $('#input-information').val();
@@ -78,36 +63,6 @@ function showInformation() {
 
 function resetInformation() {
 	$('#col-form-information').replaceWith(informationOriginal);
-	resetMain();
-}
-
-function showIsUp() {
-	var website = $('#input-isup').val();
-	if (website == "") {
-		return;
-	}
-
-	isUpOriginal = $('#col-form-isup').clone();
-	$('#button-isup').text('Loading...');
-	$('#bc-feature').css('display', 'inline-block').text('IsUp');
-	$('#bc-site').css('display', 'inline-block').text(website);
-	history.replaceState('data', '', '/isup/' + website + '/');
-
-	$.ajax({
-		url: "/api/isup/" + website,
-		type: "GET",
-		success: function(data) {
-			$('#col-form-isup').html('<div class="well"><legend>Is ' + website + ' up?</legend><p>' + data + '</p><button class="btn btn-primary" onclick="resetIsUp()">New Query</button></div>');
-			$('#bc-site').html('<a href="' + window.location.href + '">' + website + '</a>');
-		},
-		error: function(error) {
-			$('#col-form-isup').html('<div class="well"><legend>Oops...</legend><p>Sorry, but I was unable to process your request.<br />Error: ' + error.responseText + '</p><button class="btn btn-primary" onclick="resetIsUp()">New Query</button></div>');
-		}
-	});
-}
-
-function resetIsUp() {
-	$('#col-form-isup').replaceWith(isUpOriginal);
 	resetMain();
 }
 

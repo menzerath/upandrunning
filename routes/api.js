@@ -37,23 +37,6 @@ router.get('/status/:url', function(req, res) {
 	});
 });
 
-router.get('/isup/:url', function(req, res) {
-	db.query("SELECT status FROM website WHERE url = ? AND enabled = 1 AND visible = 1;", [req.params.url], function(err, rows) {
-		if (err) {
-			logger.error("Unable to fetch website-status: " + err.code);
-			res.status(500).send({requestSuccess: false, message: 'Unable to process your request.'});
-		} else {
-			if (rows[0] === undefined) {
-				res.status(404).send('Website unknown');
-			} else if (rows[0].status.indexOf("200") > -1 || rows[0].status.indexOf("301") > -1 || rows[0].status.indexOf("302") > -1) {
-				res.send('Yes');
-			} else {
-				res.send('No');
-			}
-		}
-	});
-});
-
 router.get('/websites', function(req, res) {
 	db.query("SELECT name, protocol, url, status FROM website WHERE enabled = 1 AND visible = 1;", function(err, rows) {
 		if (err) {
