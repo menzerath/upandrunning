@@ -132,8 +132,9 @@ function addWebsite() {
 
 	if (name.trim() && protocol.trim() && url.trim()) {
 		$.ajax({
-			url: "/api/admin/websites/add/" + name + "/" + protocol + "/" + url,
-			type: "GET",
+			url: "/api/admin/websites/add",
+			type: "POST",
+			data: {"name": name, "protocol": protocol, "url": url},
 			success: function() {
 				$('#input-add-name').val('');
 				$('#input-add-protocol').val('https');

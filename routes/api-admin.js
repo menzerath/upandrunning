@@ -46,12 +46,12 @@ router.get('/websites', function(req, res) {
 	});
 });
 
-router.get('/websites/add/:name/:protocol/:url', function(req, res) {
+router.post('/websites/add', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	var insertData = {name: req.params.name, protocol: req.params.protocol, url: req.params.url};
+	var insertData = {name: req.body.name, protocol: req.body.protocol, url: req.body.url};
 	db.query("INSERT INTO website SET ?;", insertData, function(err) {
 		if (err) {
 			logger.error("Unable to add new website: " + err.code);
