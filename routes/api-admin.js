@@ -214,8 +214,8 @@ router.get('/check', function(req, res) {
 	res.send({requestSuccess: true});
 });
 
-router.get('/login/:password', function(req, res) {
-	new admin().validatePassword(req.params.password, function(status, error) {
+router.post('/login', function(req, res) {
+	new admin().validatePassword(req.body.password, function(status, error) {
 		if (status === false) {
 			logger.error("Unable to login: " + error);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + error});

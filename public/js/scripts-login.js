@@ -13,10 +13,11 @@ function login() {
 
 	if (password.trim()) {
 		$.ajax({
-			url: "/api/admin/login/" + password,
-			type: "GET",
+			url: "/api/admin/login",
+			type: "POST",
+			data: {"password": password},
 			success: function() {
-				location.reload();
+				window.location.replace("/admin");
 			},
 			error: function(error) {
 				$('.bottom-right').notify({
