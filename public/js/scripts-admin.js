@@ -117,7 +117,7 @@ function addWebsite() {
 		$.ajax({
 			url: "/api/admin/websites/add",
 			type: "POST",
-			data: {"name": name, "protocol": protocol, "url": url},
+			data: {name: name, protocol: protocol, url: url},
 			success: function() {
 				$('#input-add-name').val('');
 				$('#input-add-protocol').val('https');
@@ -151,7 +151,7 @@ function enableWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/enable",
 		type: "POST",
-		data: {"id": id},
+		data: {id: id},
 		success: function() {
 			loadWebsites();
 		},
@@ -169,7 +169,7 @@ function disableWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/disable",
 		type: "POST",
-		data: {"id": id},
+		data: {id: id},
 		success: function() {
 			loadWebsites();
 		},
@@ -187,7 +187,7 @@ function visibleWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/visible",
 		type: "POST",
-		data: {"id": id},
+		data: {id: id},
 		success: function() {
 			loadWebsites();
 		},
@@ -205,7 +205,7 @@ function invisibleWebsite(id) {
 	$.ajax({
 		url: "/api/admin/websites/invisible",
 		type: "POST",
-		data: {"id": id},
+		data: {id: id},
 		success: function() {
 			loadWebsites();
 		},
@@ -241,7 +241,7 @@ function saveWebsite() {
 		$.ajax({
 			url: "/api/admin/websites/edit",
 			type: "POST",
-			data: {"id": editId, "name": name, "protocol": protocol, "url": url},
+			data: {id: editId, name: name, protocol: protocol, url: url},
 			success: function() {
 				cancleSaveWebsite();
 				loadWebsites();
@@ -278,7 +278,7 @@ function deleteWebsite(id) {
 		$.ajax({
 			url: "/api/admin/websites/delete",
 			type: "POST",
-			data: {"id": id},
+			data: {id: id},
 			success: function() {
 				loadWebsites();
 
@@ -306,11 +306,11 @@ function changeTitle() {
 		$.ajax({
 			url: "/api/admin/settings/title",
 			type: "POST",
-			data: {"title": newTitle},
+			data: {title: newTitle},
 			success: function() {
 				$('.bottom-right').notify({
 					type: 'success',
-					message: {text: "Title successfully changed.Reload this page to see your changes."},
+					message: {text: "Title successfully changed. Reload this page to see your changes."},
 					fadeOut: {enabled: true, delay: 3000}
 				}).show();
 			},
@@ -338,7 +338,7 @@ function changePassword() {
 		$.ajax({
 			url: "/api/admin/settings/password",
 			type: "POST",
-			data: {"password": newPassword},
+			data: {password: newPassword},
 			success: function() {
 				$('#input-new-password').val('');
 
@@ -372,7 +372,7 @@ function changeInterval() {
 		$.ajax({
 			url: "/api/admin/settings/interval",
 			type: "POST",
-			data: {"interval": newInterval},
+			data: {interval: newInterval},
 			success: function() {
 				$('.bottom-right').notify({
 					type: 'success',
