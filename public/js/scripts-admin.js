@@ -165,8 +165,9 @@ function addWebsite() {
 
 function enableWebsite(id) {
 	$.ajax({
-		url: "/api/admin/websites/enable/" + id,
-		type: "GET",
+		url: "/api/admin/websites/enable",
+		type: "POST",
+		data: {"id": id},
 		success: function() {
 			loadWebsites();
 		},
@@ -182,8 +183,9 @@ function enableWebsite(id) {
 
 function disableWebsite(id) {
 	$.ajax({
-		url: "/api/admin/websites/disable/" + id,
-		type: "GET",
+		url: "/api/admin/websites/disable",
+		type: "POST",
+		data: {"id": id},
 		success: function() {
 			loadWebsites();
 		},

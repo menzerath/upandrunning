@@ -62,12 +62,12 @@ router.get('/websites/add/:name/:protocol/:url', function(req, res) {
 	});
 });
 
-router.get('/websites/enable/:id', function(req, res) {
+router.post('/websites/enable', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	db.query("UPDATE website SET enabled = 1 WHERE id = ?;", [req.params.id], function(err) {
+	db.query("UPDATE website SET enabled = 1 WHERE id = ?;", [req.body.id], function(err) {
 		if (err) {
 			logger.error("Unable to enable website: " + err.code);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});
@@ -77,12 +77,12 @@ router.get('/websites/enable/:id', function(req, res) {
 	});
 });
 
-router.get('/websites/disable/:id', function(req, res) {
+router.post('/websites/disable', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	db.query("UPDATE website SET enabled = 0 WHERE id = ?;", [req.params.id], function(err) {
+	db.query("UPDATE website SET enabled = 0 WHERE id = ?;", [req.body.id], function(err) {
 		if (err) {
 			logger.error("Unable to disable website: " + err.code);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});
