@@ -92,12 +92,12 @@ router.get('/websites/disable/:id', function(req, res) {
 	});
 });
 
-router.get('/websites/visible/:id', function(req, res) {
+router.post('/websites/visible', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	db.query("UPDATE website SET visible = 1 WHERE id = ?;", [req.params.id], function(err) {
+	db.query("UPDATE website SET visible = 1 WHERE id = ?;", [req.body.id], function(err) {
 		if (err) {
 			logger.error("Unable to enable website-visibility: " + err.code);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});
@@ -107,12 +107,12 @@ router.get('/websites/visible/:id', function(req, res) {
 	});
 });
 
-router.get('/websites/invisible/:id', function(req, res) {
+router.post('/websites/invisible', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;
 	}
-	db.query("UPDATE website SET visible = 0 WHERE id = ?;", [req.params.id], function(err) {
+	db.query("UPDATE website SET visible = 0 WHERE id = ?;", [req.body.id], function(err) {
 		if (err) {
 			logger.error("Unable to disable website-visibility: " + err.code);
 			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});

@@ -199,8 +199,9 @@ function disableWebsite(id) {
 
 function visibleWebsite(id) {
 	$.ajax({
-		url: "/api/admin/websites/visible/" + id,
-		type: "GET",
+		url: "/api/admin/websites/visible",
+		type: "POST",
+		data: {"id": id},
 		success: function() {
 			loadWebsites();
 		},
@@ -216,8 +217,9 @@ function visibleWebsite(id) {
 
 function invisibleWebsite(id) {
 	$.ajax({
-		url: "/api/admin/websites/invisible/" + id,
-		type: "GET",
+		url: "/api/admin/websites/invisible",
+		type: "POST",
+		data: {"id": id},
 		success: function() {
 			loadWebsites();
 		},
