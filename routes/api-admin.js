@@ -205,7 +205,7 @@ router.get('/settings/interval/:interval', function(req, res) {
 	});
 });
 
-router.get('/check', function(req, res) {
+router.post('/check', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
 		return;

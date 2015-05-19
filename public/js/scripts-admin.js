@@ -417,11 +417,11 @@ function checkNow() {
 	allowCheck = false;
 	$.ajax({
 		url: "/api/admin/check",
-		type: "GET",
+		type: "POST",
 		success: function() {
 			$('.bottom-right').notify({
 				type: 'success',
-				message: {text: "Check triggered. Will reload websites in three seconds."},
+				message: {text: "Check triggered. Reload in three seconds."},
 				fadeOut: {enabled: true, delay: 3000}
 			}).show();
 			setTimeout(function() {
