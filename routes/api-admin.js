@@ -7,7 +7,10 @@ var logger = require('../lib/logger');
 var admin = require('../lib/admin');
 
 router.get('/', function(req, res) {
-	res.send({requestSuccess: true, message: 'Welcome to UpAndRunning\'s Admin-API!'});
+	res.send({
+		requestSuccess: true,
+		message: 'Welcome to UpAndRunning\'s Admin-API! Please be aware that most operations need an incoming POST-request.'
+	});
 });
 
 router.get('/websites', function(req, res) {
