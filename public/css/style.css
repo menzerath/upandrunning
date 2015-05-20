@@ -33,6 +33,10 @@ body > .container {
 	display: none;
 }
 
+#row-information {
+	display: none;
+}
+
 #form-edit-website {
 	display: none;
 }

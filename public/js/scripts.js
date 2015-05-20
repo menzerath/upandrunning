@@ -1,16 +1,7 @@
 $(document).ready(function() {
-	var infoField = $('#input-information');
-
-	infoField.keypress(function(event) {
-		if (event.keyCode == 13) {
-			showInformation();
-		}
-	});
-
 	if (location.pathname.split("/")[1] == "status") {
 		if (location.pathname.split("/")[2] !== undefined && location.pathname.split("/")[2] !== "") {
-			infoField.val(location.pathname.split("/")[2]);
-			showInformation();
+			showInformation(location.pathname.split("/")[2]);
 		} else {
 			history.replaceState('data', '', '/');
 		}
@@ -19,19 +10,10 @@ $(document).ready(function() {
 	loadWebsiteData();
 });
 
-var informationOriginal = $('#col-form-information').clone();
-
-function showInformation() {
-	var website = $('#input-information').val();
+function showInformation(website) {
 	if (website == "") {
 		return;
 	}
-
-	informationOriginal = $('#col-form-information').clone();
-	$('#button-information').text('Loading...');
-	$('#bc-feature').css('display', 'inline-block').text('Status');
-	$('#bc-site').css('display', 'inline-block').text(website);
-	history.replaceState('data', '', '/status/' + website + '/');
 
 	$.ajax({
 		url: "/api/status/" + website,
@@ -50,23 +32,31 @@ function showInformation() {
 				dataString += '<p>The last failed check on <b>' + dateFail.toLocaleDateString() + '</b> at <b>' + dateFail.toLocaleTimeString() + '</b> failed because of this response: <b>' + data.lastFailedCheckResult.status + '</b></p>';
 			}
 
-			dataString += '<button class="btn btn-primary" onclick="resetInformation()">New Query</button></div>';
+			dataString += '<button class="btn btn-primary" onclick="hideInformation()">Close</button></div>';
 
 			$('#col-form-information').html(dataString);
-			$('#bc-site').html('<a href="' + window.location.href + '">' + website + '</a>');
+
+			// show everything to the user
+			$('#button-information').text('Loading...');
+			$('#bc-feature').css('display', 'inline-block').text('Status');
+			$('#bc-site').css('display', 'inline-block').text(website).html('<a href="/status/' + website + '">' + website + '</a>');
+			history.replaceState('data', '', '/status/' + website + '/');
+
+			$('#row-information').show();
 		},
 		error: function(error) {
-			$('#col-form-information').html('<div class="well"><legend>Oops...</legend><p>Sorry, but I was unable to process your request.<br />Error: ' + JSON.parse(error.responseText).message + '</p><button class="btn btn-primary" onclick="resetInformation()">New Query</button></div>');
+			$('.bottom-right').notify({
+				type: 'danger',
+				message: {text: "Sorry, but I was unable to process your request. Error: " + JSON.parse(error.responseText).message},
+				fadeOut: {enabled: true, delay: 3000}
+			}).show();
 		}
 	});
 }
 
-function resetInformation() {
-	$('#col-form-information').replaceWith(informationOriginal);
-	resetMain();
-}
+function hideInformation() {
+	$('#row-information').hide();
 
-function resetMain() {
 	$('#bc-feature').css('display', 'none').text('');
 	$('#bc-site').css('display', 'none').text('');
 	history.replaceState('data', '', '/');
@@ -94,7 +84,7 @@ function loadWebsiteData() {
 					newEntry += ' <span class="label label-danger">' + loadedWebsiteData[i].status + '</span> ';
 				}
 
-				newEntry += '</td><td> <span class="label label-primary" id="label-action" onclick="moreAbout(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
+				newEntry += '</td><td> <span class="label label-primary" id="label-action" onclick="showInformation(\'' + loadedWebsiteData[i].url + '\')">More</span> </td></tr>';
 
 				if (loadedWebsiteData[i].status.indexOf("200") > -1) {
 					dataStringUp += newEntry;
@@ -118,10 +108,4 @@ function loadWebsiteData() {
 			$('#table-websites-down').html('<tr><td colspan="4">An error occured: ' + JSON.parse(error.responseText).message + '</td></tr>');
 		}
 	});
-}
-
-function moreAbout(url) {
-	resetInformation();
-	$('#input-information').val(url);
-	showInformation();
 }
