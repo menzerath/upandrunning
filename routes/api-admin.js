@@ -208,6 +208,23 @@ router.post('/settings/interval', function(req, res) {
 	});
 });
 
+router.post('/settings/pbkey', function(req, res) {
+	if (!req.session.loggedin) {
+		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});
+		return;
+	}
+	var newKey = sanitizer.escape(req.body.key);
+	db.query("UPDATE settings SET value = ? WHERE name = 'pushbullet_key';", [newKey], function(err) {
+		if (err) {
+			logger.error("Unable to change PushBullet-API-Key: " + err.code);
+			res.status(400).send({requestSuccess: false, message: 'Unable to process your request: ' + err.code});
+		} else {
+			res.send({requestSuccess: true});
+			global.PBAPI = newKey;
+		}
+	});
+});
+
 router.post('/check', function(req, res) {
 	if (!req.session.loggedin) {
 		res.status(401).send({requestSuccess: false, message: 'Unauthorized'});

@@ -19,7 +19,7 @@ db.query("CREATE TABLE IF NOT EXISTS `website` (`id` int(11) NOT NULL AUTO_INCRE
 		logger.error(err);
 		process.exit(1);
 	} else {
-		logger.info("Website-Database successfully prepared");
+		logger.info("Website-Database successfully prepared.");
 	}
 });
 
@@ -41,11 +41,11 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 			} else {
 				db.query("INSERT INTO settings (name, value) VALUES ('title', 'UpAndRunning');", function(err) {
 					if (err) {
-						logger.error("Unable to add check-interval: " + err.code);
+						logger.error("Unable to add title: " + err.code);
 						return;
 					}
 					global.TITLE = "UpAndRunning";
-					logger.info("Set title to default-value of \"UpAndRunning\"");
+					logger.info("Set title to default-value of \"UpAndRunning\".");
 				});
 			}
 		});
@@ -54,7 +54,7 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 			if (status === false) {
 				new admin().addAdmin("admin", function(status) {
 					if (status === true) {
-						logger.info("Admin-User [Password: admin] created");
+						logger.info("Admin-User [Password: admin] created.");
 					}
 				});
 			}
@@ -76,7 +76,28 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 						return;
 					}
 					global.INTERVAL = 5;
-					logger.info("Set interval to default-value of 5 minutes");
+					logger.info("Set interval to default-value of 5 minutes.");
+				});
+			}
+		});
+
+		db.query("SELECT value FROM settings where name = 'pushbullet_key';", function(err, rows) {
+			if (err) {
+				logger.error("Unable to check for PushBullet-API-Key: " + err.code);
+				return;
+			}
+
+			if (typeof rows[0] != 'undefined') {
+				global.PBAPI = rows[0].value;
+				logger.info("Set PushBullet-API-Key to \"" + global.PBAPI + "\".");
+			} else {
+				db.query("INSERT INTO settings (name, value) VALUES ('pushbullet_key', '');", function(err) {
+					if (err) {
+						logger.error("Unable to add PushBullet-API-Key: " + err.code);
+						return;
+					}
+					global.PBAPI = "";
+					logger.info("Set PushBullet-API-Key to default-value of \"\".");
 				});
 			}
 		});

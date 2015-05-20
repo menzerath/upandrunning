@@ -158,6 +158,17 @@
 											</div>
 										</div>
 									</fieldset>
+									<fieldset>
+                                    	<div class="form-group">
+                                    		<label class="col-lg-2 control-label">PushBullet:</label>
+                                    		<div class="col-lg-7">
+                                    			<input class="form-control" id="input-new-pb_key" placeholder="API-Key" value="{{ pb_key }}">
+                                    		</div>
+                                    		<div class="col-lg-3">
+                                    			<button type="button" class="btn btn-primary pull-right" id="button-change-pb_key" onclick="changePBKey()">Save</button>
+                                    		</div>
+                                    	</div>
+                                    </fieldset>
 								</div>
 							</div>
 						</div>
