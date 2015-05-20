@@ -1,6 +1,6 @@
 {
 	"name": "UpAndRunning",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"private": true,
 	"author": {
 		"name": "Marvin Menzerath",
@@ -19,6 +19,7 @@
 		"hjs": "~0.0.6",
 		"morgan": "~1.5.3",
 		"mysql": "~2.6.2",
+		"pushbullet": "~1.4.3",
 		"request": "~2.55.0",
 		"sanitizer": "~0.1.2",
 		"winston": "~1.0.0"

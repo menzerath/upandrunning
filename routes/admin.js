@@ -6,7 +6,8 @@ router.get('/', function(req, res) {
 		res.render('admin', {
 			version: {node: process.version, app: require('../package.json').version},
 			interval: global.INTERVAL,
-			title: global.TITLE
+			title: global.TITLE,
+			pb_key: global.PBAPI
 		});
 	} else {
 		res.redirect('/admin/login');
