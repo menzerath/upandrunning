@@ -1,5 +1,6 @@
 # UpAndRunning
-UpAndRunning is a lightweight Node.js application which monitors all of your websites for availability and offers a simple JSON-API.
+UpAndRunning is a lightweight Node.js application which monitors all of your websites for availability and offers a simple JSON-API.  
+You can also enter your PushBullet-API-Key to get a Push each time the status of one of your websites changes.
 
 ## Installation
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/MarvinMenzerath/UpAndRunning)
@@ -144,6 +145,12 @@ POST-parameters: password
 ```
 /api/admin/settings/interval
 POST-parameters: interval
+```
+
+#### Change PushBullet-API-Key
+```
+/api/admin/settings/pbkey
+POST-parameters: key
 ```
 
 #### Trigger a Check
