@@ -89,7 +89,7 @@ db.query("CREATE TABLE IF NOT EXISTS `settings` (`id` int(11) NOT NULL AUTO_INCR
 
 			if (typeof rows[0] != 'undefined') {
 				global.PBAPI = rows[0].value;
-				logger.info("Set PushBullet-API-Key to \"" + global.PBAPI + "\".");
+				logger.info("Set PushBullet-API-Key to \"" + global.PBAPI.slice(0, 5) + " ...\".");
 			} else {
 				db.query("INSERT INTO settings (name, value) VALUES ('pushbullet_key', '');", function(err) {
 					if (err) {
