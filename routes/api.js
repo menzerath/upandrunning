@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/status/:url', function(req, res) {
-	db.query("SELECT * FROM website WHERE url = ? AND enabled = 1 AND visible = 1;", [req.params.url], function(err, rows) {
+	db.query("SELECT * FROM website WHERE url = ? AND enabled = 1;", [req.params.url], function(err, rows) {
 		if (err) {
 			logger.error("Unable to fetch website-status: " + err.code);
 			res.status(500).send({requestSuccess: false, message: 'Unable to process your request.'});
