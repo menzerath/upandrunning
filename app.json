@@ -1,6 +1,6 @@
 {
 	"name": "UpAndRunning",
-	"description": "UpAndRunning is a lightweight Node.JS application which monitors all of your websites for availability and offers a simple JSON-API.",
+	"description": "UpAndRunning is a lightweight Node.js application which monitors all of your websites for availability and offers a simple JSON-API.",
 	"repository": "https://github.com/MarvinMenzerath/UpAndRunning",
 	"logo": "https://raw.githubusercontent.com/MarvinMenzerath/UpAndRunning/master/public/favicon.png",
 	"keywords": [

@@ -170,7 +170,7 @@ function checkAllWebsites() {
 
 			for (var i in rows) {
 				if (rows.hasOwnProperty(i)) {
-					new website(rows[i].id, rows[i].protocol, rows[i].url).runCheck();
+					new website(rows[i].id, rows[i].protocol, rows[i].url).runCheck(true);
 				}
 			}
 		}

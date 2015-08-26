@@ -1,6 +1,6 @@
 {
 	"name": "UpAndRunning",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"private": true,
 	"author": {
 		"name": "Marvin Menzerath",
@@ -12,15 +12,15 @@
 		"start": "node ./bin/www"
 	},
 	"dependencies": {
-		"body-parser": "~1.13.2",
-		"config": "~1.14.0",
-		"express": "~4.13.1",
+		"body-parser": "~1.13.3",
+		"config": "~1.15.0",
+		"express": "~4.13.3",
 		"express-session": "~1.11.3",
 		"hjs": "~0.0.6",
 		"morgan": "~1.6.1",
-		"mysql": "~2.8.0",
+		"mysql": "~2.9.0",
 		"pushbullet": "~1.4.3",
-		"request": "~2.60.0",
+		"request": "~2.61.0",
 		"sanitizer": "~0.1.2",
 		"winston": "~1.0.1"
 	}
